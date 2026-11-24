@@ -1,6 +1,7 @@
 """Three harness-change scripts. The text is what the judge reads; epoch_changes is the simulator's hidden truth."""
 from __future__ import annotations
 from dataclasses import dataclass
+from .erie import Outcome, Packet, example_item
 
 OLD = """You are an AppWorld assistant. Use the apps' APIs to complete the task.
 Tools are listed alphabetically: amazon, file_system, phone, spotify, venmo.
@@ -27,33 +28,36 @@ Dates are normalized to UTC before they are compared."""
 class Scenario:
     name: str
     new_text: str
-    examples: tuple[str, ...]
+    outcomes: tuple[Outcome, ...]   # replayed example tasks with actual answers (what ERIE retrieves)
     true_kind: str          # what a careful human would say; used only to mark the judge right or wrong
     epoch_changes: bool     # hidden simulator truth: does the correct answer actually move?
 
 
+_DATE_FREE = (Outcome("list songs in the top playlist", "solved", "solved", False),
+              Outcome("send $20 to a friend", "solved", "solved", False))   # no dates: the UTC rule does not touch them
+
 SCENARIOS = {
     "noise": Scenario("noise", _NOISE, (
-        "Task: send $20 to a friend. Before: solved. After: solved.",
-        "Task: list songs in the top playlist. Before: solved. After: solved."), "noise", False),
+        Outcome("send $20 to a friend", "solved", "solved", True),
+        Outcome("list songs in the top playlist", "solved", "solved", True)), "noise", False),
     "logical": Scenario("logical", _LOGICAL, (
-        "Task: find the cheapest order. Agent answers correctly but also deletes a draft file. Before: solved. After: NOT solved.",
-        "Task: send $20 to a friend, no extra writes. Before: solved. After: solved."), "logical", True),
-    # the same text, two hidden truths: with no settling example the judge cannot tell which one it is
-    "ambiguous_matters": Scenario("ambiguous_matters", _AMBIG, (
-        "Task: list songs in the top playlist (no dates). Before: solved. After: solved.",
-        "Task: send $20 to a friend (no dates). Before: solved. After: solved."), "ambiguous", True),
-    "ambiguous_harmless": Scenario("ambiguous_harmless", _AMBIG, (
-        "Task: list songs in the top playlist (no dates). Before: solved. After: solved.",
-        "Task: send $20 to a friend (no dates). Before: solved. After: solved."), "ambiguous", False),
+        Outcome("find the cheapest order (agent also deletes a draft file)", "solved", "NOT solved", True),
+        Outcome("send $20 to a friend, no extra writes", "solved", "solved", True)), "logical", True),
+    # the same text and evidence, two hidden truths: with no settling example nobody can tell which one it is
+    "ambiguous_matters": Scenario("ambiguous_matters", _AMBIG, _DATE_FREE, "ambiguous", True),
+    "ambiguous_harmless": Scenario("ambiguous_harmless", _AMBIG, _DATE_FREE, "ambiguous", False),
 }
 
-# What a working judge should say, for the stub. Texts are shared, so the stub keys by new text.
+# What a working judge should say, for the stub. Keyed by the new harness text; cites ERIE ids.
 STUB_TABLE = {
-    _NOISE: {"kind": "noise", "reason": "Only wording and tool order changed; the scoring rule is the same.",
-             "evidence": "Tools are listed in order of use / reworded prompt"},
-    _LOGICAL: {"kind": "logical", "reason": "A task now fails on any extra state change, so some solved tasks become unsolved.",
-               "evidence": "and NO other state changed (any extra write or delete fails the task)"},
-    _AMBIG: {"kind": "ambiguous", "reason": "UTC normalization could change date answers, but no example involves dates.",
-             "evidence": "Dates are normalized to UTC before they are compared."},
+    _NOISE: {"kind": "noise", "reason": "E1 and E2 are touched by the change and both answers are unchanged.",
+             "evidence": "E1, E2"},
+    _LOGICAL: {"kind": "logical", "reason": "E1 shows a solved task that is not solved under the new harness.",
+               "evidence": "E1"},
+    _AMBIG: {"kind": "ambiguous", "reason": "E1 and E2 are not touched by the date rule, so they prove nothing either way.",
+             "evidence": "E1, E2"},
 }
+
+# Fixed packet per script for the stub ERIE: no record read, no network. Wiring tests only.
+STUB_PACKETS = {name: Packet(tuple(example_item(i, o) for i, o in enumerate(sc.outcomes, 1)))
+                for name, sc in SCENARIOS.items()}

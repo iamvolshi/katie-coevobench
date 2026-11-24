@@ -9,7 +9,8 @@ from __future__ import annotations
 from pathlib import Path
 from .record import Record
 from .sim import World, Weights, Traj
-from .judge import Judge, StubJudge, Verdict
+from .judge import Judge, StubJudge, Verdict, cited_ids
+from .erie import Erie, Packet
 from .scenarios import SCENARIOS, OLD, STUB_TABLE
 
 MIN_TRAIN = 40   # ASSUMPTION: a training job needs at least 40 trajectories
@@ -25,7 +26,7 @@ class ControlWrapper:
         self._post: list[Traj] = []
         self.hold = False
 
-    def revise(self, version, why, verdict=None):
+    def revise(self, version, why, verdict=None, packet=None):
         self._post = []
 
     def add(self, trajs):
@@ -66,7 +67,7 @@ class KatieWrapper:
     def epoch(self) -> int:
         return self.epoch_of[self.hkid]
 
-    def revise(self, version, why, verdict: Verdict | None = None):
+    def revise(self, version, why, verdict: Verdict | None = None, packet: Packet | None = None):
         prev = self.hkid
         e = self.rec.append("harness", 7, "researcher", f"harness {version}", why, supersedes=prev, version=version)
         self.hkid = e.kid
@@ -79,9 +80,15 @@ class KatieWrapper:
         self.epoch_of[e.kid] = n
         if verdict is None:
             return
+        ev_kid = None
+        if packet is not None:   # the retrieved packet is recorded as retrieved, before the judge's verdict is
+            ev_kid = self.rec.append("evidence", 6, "erie", f"evidence packet for the change to {version}",
+                                     f"{len(packet.items)} items retrieved read-only for the judge",
+                                     harness_kid=e.kid, items=packet.to_data()).kid
         j = self.rec.append("judgment", 6, "judge", f"harness change classified {verdict.kind}", verdict.reason,
                             harness_kid=e.kid, prior_harness_kid=prev, judged_kind=verdict.kind,
-                            evidence=verdict.evidence, failed=verdict.failed)
+                            evidence=verdict.evidence, failed=verdict.failed, evidence_kid=ev_kid,
+                            cited=cited_ids(verdict.evidence))
         if verdict.kind == "ambiguous":
             h = self.rec.append("hold", 8, "gate", "change marked unsure; old trajectories held",
                                 verdict.reason, harness_kid=e.kid, judgment_kid=j.kid)
@@ -141,13 +148,14 @@ class KatieWrapper:
 
 
 def run_arm(arm: str, seed: int, out: Path | None = None, scenario: str = "logical",
-            judge: Judge | None = None, mix: str = "linear") -> dict:
+            judge: Judge | None = None, mix: str = "linear", erie=None) -> dict:
     sc = SCENARIOS[scenario]
     world = World(seed, mix)
     tag = f"{scenario}-{mix}-{seed}"
     rec = Record(out / f"record-{arm}-{tag}.jsonl") if out and arm == "katie" else Record()
     wrap = KatieWrapper(rec) if arm == "katie" else ControlWrapper()
     judge = judge or StubJudge(STUB_TABLE)
+    erie = erie or Erie()
     stages, jobs, used = [], [], []
     base = Weights("base")
     cur = "H0"   # ground-truth epoch label the simulator scores against
@@ -173,10 +181,11 @@ def run_arm(arm: str, seed: int, out: Path | None = None, scenario: str = "logic
     w1 = train("w1", list(wrap.history))
     stage("S1 trained, old harness", w1, "job 1")
 
-    verdict = None
+    verdict = packet = None
     if arm == "katie":
-        verdict = judge.judge(OLD, sc.new_text, list(sc.examples))
-    wrap.revise("V1", f"researcher revised the harness ({scenario})", verdict)
+        packet = erie.retrieve(rec, sc.outcomes, scenario)          # ERIE retrieves
+        verdict = judge.judge(OLD, sc.new_text, packet)             # the judge classifies; KATIE acts below
+    wrap.revise("V1", f"researcher revised the harness ({scenario})", verdict, packet)
     cur = "H1" if sc.epoch_changes else "H0"
     served = wrap.serve(w1)
     stage("S2 harness revised, same weights", served,

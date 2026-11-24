@@ -3,19 +3,21 @@ import json
 from pathlib import Path
 from .judge import NimJudge, build_prompt, parse_verdict, MODEL
 from .scenarios import SCENARIOS, OLD
+from .erie import Erie
 
 
 def main():
     j = NimJudge()   # raises if NIM_API_KEY is unset: nothing is invented
     rows = []
-    for name in ("noise", "logical", "ambiguous_matters"):
+    for name in ("noise", "logical", "ambiguous_matters", "ambiguous_harmless"):
         sc = SCENARIOS[name]
         try:
-            raw = j.raw(OLD, sc.new_text, list(sc.examples))
+            packet = Erie().retrieve(None, sc.outcomes, name)
+            raw = j.raw(OLD, sc.new_text, packet)
         except Exception as e:
             raw = None
             print(name, "REQUEST FAILED", type(e).__name__)
-        v = parse_verdict(raw)
+        v = parse_verdict(raw, packet)
         rows.append({"script": name, "expected": sc.true_kind, "kind": v.kind, "failed": v.failed,
                      "reason": v.reason, "evidence": v.evidence, "raw_reply": raw})
         print(name, "expected", sc.true_kind, "got", v.kind, "failed" if v.failed else "ok", "|", v.reason)

@@ -269,7 +269,7 @@
   "base_test_solved": 14,
   "trajectories_used": 100,
   "test_reads": 2,
-  "record_entries": 85,
+  "record_entries": 86,
   "judge_kind": "noise",
   "judge_failed": false,
   "true_kind": "noise",
@@ -342,7 +342,7 @@
   "base_test_solved": 14,
   "trajectories_used": 100,
   "test_reads": 2,
-  "record_entries": 85,
+  "record_entries": 86,
   "judge_kind": "noise",
   "judge_failed": false,
   "true_kind": "noise",
@@ -415,7 +415,7 @@
   "base_test_solved": 14,
   "trajectories_used": 100,
   "test_reads": 2,
-  "record_entries": 85,
+  "record_entries": 86,
   "judge_kind": "noise",
   "judge_failed": false,
   "true_kind": "noise",
@@ -678,7 +678,7 @@
     "stage": "S3 retrain attempt 1",
     "weights": "base",
     "selection_solved": 14,
-    "note": "refused (T1-66), job skipped"
+    "note": "refused (T1-67), job skipped"
    },
    {
     "stage": "S4 retrain on fresh data",
@@ -702,7 +702,7 @@
     "trajectories": 20,
     "launched": false,
     "hurt": false,
-    "refusal_kid": "T1-66"
+    "refusal_kid": "T1-67"
    },
    {
     "job": 3,
@@ -724,7 +724,7 @@
   "base_test_solved": 14,
   "trajectories_used": 80,
   "test_reads": 2,
-  "record_entries": 87,
+  "record_entries": 88,
   "judge_kind": "logical",
   "judge_failed": false,
   "true_kind": "logical",
@@ -759,7 +759,7 @@
     "stage": "S3 retrain attempt 1",
     "weights": "base",
     "selection_solved": 14,
-    "note": "refused (T1-66), job skipped"
+    "note": "refused (T1-67), job skipped"
    },
    {
     "stage": "S4 retrain on fresh data",
@@ -783,7 +783,7 @@
     "trajectories": 20,
     "launched": false,
     "hurt": false,
-    "refusal_kid": "T1-66"
+    "refusal_kid": "T1-67"
    },
    {
     "job": 3,
@@ -805,7 +805,7 @@
   "base_test_solved": 14,
   "trajectories_used": 80,
   "test_reads": 2,
-  "record_entries": 87,
+  "record_entries": 88,
   "judge_kind": "logical",
   "judge_failed": false,
   "true_kind": "logical",
@@ -840,7 +840,7 @@
     "stage": "S3 retrain attempt 1",
     "weights": "base",
     "selection_solved": 14,
-    "note": "refused (T1-66), job skipped"
+    "note": "refused (T1-67), job skipped"
    },
    {
     "stage": "S4 retrain on fresh data",
@@ -864,7 +864,7 @@
     "trajectories": 20,
     "launched": false,
     "hurt": false,
-    "refusal_kid": "T1-66"
+    "refusal_kid": "T1-67"
    },
    {
     "job": 3,
@@ -886,7 +886,7 @@
   "base_test_solved": 14,
   "trajectories_used": 80,
   "test_reads": 2,
-  "record_entries": 87,
+  "record_entries": 88,
   "judge_kind": "logical",
   "judge_failed": false,
   "true_kind": "logical",
@@ -1149,7 +1149,7 @@
     "stage": "S3 retrain attempt 1",
     "weights": "base",
     "selection_solved": 14,
-    "note": "refused (T1-67), job skipped"
+    "note": "refused (T1-68), job skipped"
    },
    {
     "stage": "S4 retrain on fresh data",
@@ -1173,7 +1173,7 @@
     "trajectories": 0,
     "launched": false,
     "hurt": false,
-    "refusal_kid": "T1-67"
+    "refusal_kid": "T1-68"
    },
    {
     "job": 3,
@@ -1195,7 +1195,7 @@
   "base_test_solved": 14,
   "trajectories_used": 80,
   "test_reads": 2,
-  "record_entries": 89,
+  "record_entries": 90,
   "judge_kind": "ambiguous",
   "judge_failed": false,
   "true_kind": "ambiguous",
@@ -1230,7 +1230,7 @@
     "stage": "S3 retrain attempt 1",
     "weights": "base",
     "selection_solved": 14,
-    "note": "refused (T1-67), job skipped"
+    "note": "refused (T1-68), job skipped"
    },
    {
     "stage": "S4 retrain on fresh data",
@@ -1254,7 +1254,7 @@
     "trajectories": 0,
     "launched": false,
     "hurt": false,
-    "refusal_kid": "T1-67"
+    "refusal_kid": "T1-68"
    },
    {
     "job": 3,
@@ -1276,7 +1276,7 @@
   "base_test_solved": 14,
   "trajectories_used": 80,
   "test_reads": 2,
-  "record_entries": 89,
+  "record_entries": 90,
   "judge_kind": "ambiguous",
   "judge_failed": false,
   "true_kind": "ambiguous",
@@ -1311,7 +1311,7 @@
     "stage": "S3 retrain attempt 1",
     "weights": "base",
     "selection_solved": 14,
-    "note": "refused (T1-67), job skipped"
+    "note": "refused (T1-68), job skipped"
    },
    {
     "stage": "S4 retrain on fresh data",
@@ -1335,7 +1335,7 @@
     "trajectories": 0,
     "launched": false,
     "hurt": false,
-    "refusal_kid": "T1-67"
+    "refusal_kid": "T1-68"
    },
    {
     "job": 3,
@@ -1357,7 +1357,7 @@
   "base_test_solved": 14,
   "trajectories_used": 80,
   "test_reads": 2,
-  "record_entries": 89,
+  "record_entries": 90,
   "judge_kind": "ambiguous",
   "judge_failed": false,
   "true_kind": "ambiguous",
@@ -1596,7 +1596,7 @@
     "stage": "S3 retrain attempt 1",
     "weights": "base",
     "selection_solved": 14,
-    "note": "refused (T1-67), job skipped"
+    "note": "refused (T1-68), job skipped"
    },
    {
     "stage": "S4 retrain on fresh data",
@@ -1620,7 +1620,7 @@
     "trajectories": 0,
     "launched": false,
     "hurt": false,
-    "refusal_kid": "T1-67"
+    "refusal_kid": "T1-68"
    },
    {
     "job": 3,
@@ -1642,7 +1642,7 @@
   "base_test_solved": 14,
   "trajectories_used": 120,
   "test_reads": 2,
-  "record_entries": 89,
+  "record_entries": 90,
   "judge_kind": "ambiguous",
   "judge_failed": false,
   "true_kind": "ambiguous",
@@ -1677,7 +1677,7 @@
     "stage": "S3 retrain attempt 1",
     "weights": "base",
     "selection_solved": 14,
-    "note": "refused (T1-67), job skipped"
+    "note": "refused (T1-68), job skipped"
    },
    {
     "stage": "S4 retrain on fresh data",
@@ -1701,7 +1701,7 @@
     "trajectories": 0,
     "launched": false,
     "hurt": false,
-    "refusal_kid": "T1-67"
+    "refusal_kid": "T1-68"
    },
    {
     "job": 3,
@@ -1723,7 +1723,7 @@
   "base_test_solved": 14,
   "trajectories_used": 120,
   "test_reads": 2,
-  "record_entries": 89,
+  "record_entries": 90,
   "judge_kind": "ambiguous",
   "judge_failed": false,
   "true_kind": "ambiguous",
@@ -1758,7 +1758,7 @@
     "stage": "S3 retrain attempt 1",
     "weights": "base",
     "selection_solved": 14,
-    "note": "refused (T1-67), job skipped"
+    "note": "refused (T1-68), job skipped"
    },
    {
     "stage": "S4 retrain on fresh data",
@@ -1782,7 +1782,7 @@
     "trajectories": 0,
     "launched": false,
     "hurt": false,
-    "refusal_kid": "T1-67"
+    "refusal_kid": "T1-68"
    },
    {
     "job": 3,
@@ -1804,7 +1804,7 @@
   "base_test_solved": 14,
   "trajectories_used": 120,
   "test_reads": 2,
-  "record_entries": 89,
+  "record_entries": 90,
   "judge_kind": "ambiguous",
   "judge_failed": false,
   "true_kind": "ambiguous",
@@ -2067,7 +2067,7 @@
     "stage": "S3 retrain attempt 1",
     "weights": "base",
     "selection_solved": 14,
-    "note": "refused (T1-66), job skipped"
+    "note": "refused (T1-67), job skipped"
    },
    {
     "stage": "S4 retrain on fresh data",
@@ -2091,7 +2091,7 @@
     "trajectories": 20,
     "launched": false,
     "hurt": false,
-    "refusal_kid": "T1-66"
+    "refusal_kid": "T1-67"
    },
    {
     "job": 3,
@@ -2113,7 +2113,7 @@
   "base_test_solved": 14,
   "trajectories_used": 80,
   "test_reads": 2,
-  "record_entries": 87,
+  "record_entries": 88,
   "judge_kind": "logical",
   "judge_failed": false,
   "true_kind": "logical",
@@ -2148,7 +2148,7 @@
     "stage": "S3 retrain attempt 1",
     "weights": "base",
     "selection_solved": 14,
-    "note": "refused (T1-66), job skipped"
+    "note": "refused (T1-67), job skipped"
    },
    {
     "stage": "S4 retrain on fresh data",
@@ -2172,7 +2172,7 @@
     "trajectories": 20,
     "launched": false,
     "hurt": false,
-    "refusal_kid": "T1-66"
+    "refusal_kid": "T1-67"
    },
    {
     "job": 3,
@@ -2194,7 +2194,7 @@
   "base_test_solved": 14,
   "trajectories_used": 80,
   "test_reads": 2,
-  "record_entries": 87,
+  "record_entries": 88,
   "judge_kind": "logical",
   "judge_failed": false,
   "true_kind": "logical",
@@ -2229,7 +2229,7 @@
     "stage": "S3 retrain attempt 1",
     "weights": "base",
     "selection_solved": 14,
-    "note": "refused (T1-66), job skipped"
+    "note": "refused (T1-67), job skipped"
    },
    {
     "stage": "S4 retrain on fresh data",
@@ -2253,7 +2253,7 @@
     "trajectories": 20,
     "launched": false,
     "hurt": false,
-    "refusal_kid": "T1-66"
+    "refusal_kid": "T1-67"
    },
    {
     "job": 3,
@@ -2275,7 +2275,7 @@
   "base_test_solved": 14,
   "trajectories_used": 80,
   "test_reads": 2,
-  "record_entries": 87,
+  "record_entries": 88,
   "judge_kind": "logical",
   "judge_failed": false,
   "true_kind": "logical",
@@ -2538,7 +2538,7 @@
     "stage": "S3 retrain attempt 1",
     "weights": "base",
     "selection_solved": 14,
-    "note": "refused (T1-66), job skipped"
+    "note": "refused (T1-67), job skipped"
    },
    {
     "stage": "S4 retrain on fresh data",
@@ -2562,7 +2562,7 @@
     "trajectories": 20,
     "launched": false,
     "hurt": false,
-    "refusal_kid": "T1-66"
+    "refusal_kid": "T1-67"
    },
    {
     "job": 3,
@@ -2584,7 +2584,7 @@
   "base_test_solved": 14,
   "trajectories_used": 80,
   "test_reads": 2,
-  "record_entries": 87,
+  "record_entries": 88,
   "judge_kind": "logical",
   "judge_failed": false,
   "true_kind": "logical",
@@ -2619,7 +2619,7 @@
     "stage": "S3 retrain attempt 1",
     "weights": "base",
     "selection_solved": 14,
-    "note": "refused (T1-66), job skipped"
+    "note": "refused (T1-67), job skipped"
    },
    {
     "stage": "S4 retrain on fresh data",
@@ -2643,7 +2643,7 @@
     "trajectories": 20,
     "launched": false,
     "hurt": false,
-    "refusal_kid": "T1-66"
+    "refusal_kid": "T1-67"
    },
    {
     "job": 3,
@@ -2665,7 +2665,7 @@
   "base_test_solved": 14,
   "trajectories_used": 80,
   "test_reads": 2,
-  "record_entries": 87,
+  "record_entries": 88,
   "judge_kind": "logical",
   "judge_failed": false,
   "true_kind": "logical",
@@ -2700,7 +2700,7 @@
     "stage": "S3 retrain attempt 1",
     "weights": "base",
     "selection_solved": 14,
-    "note": "refused (T1-66), job skipped"
+    "note": "refused (T1-67), job skipped"
    },
    {
     "stage": "S4 retrain on fresh data",
@@ -2724,7 +2724,7 @@
     "trajectories": 20,
     "launched": false,
     "hurt": false,
-    "refusal_kid": "T1-66"
+    "refusal_kid": "T1-67"
    },
    {
     "job": 3,
@@ -2746,7 +2746,7 @@
   "base_test_solved": 14,
   "trajectories_used": 80,
   "test_reads": 2,
-  "record_entries": 87,
+  "record_entries": 88,
   "judge_kind": "logical",
   "judge_failed": false,
   "true_kind": "logical",

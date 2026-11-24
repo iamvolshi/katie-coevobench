@@ -3,6 +3,7 @@ from pathlib import Path
 from katie_coevobench.arms import run_arm
 from katie_coevobench.judge import StubJudge, parse_verdict, NimJudge, Judge
 from katie_coevobench.scenarios import SCENARIOS, STUB_TABLE, OLD
+from katie_coevobench.erie import Erie, Packet
 from katie_coevobench.sim import BASE_SOLVED, MIX_RULES
 
 
@@ -80,7 +81,7 @@ class FailedJudgment(unittest.TestCase):
         class Boom(Judge):
             def raw(self, *a):
                 raise TimeoutError()
-        v = Boom().judge(OLD, "x", [])
+        v = Boom().judge(OLD, "x", Erie().retrieve(None, SCENARIOS["noise"].outcomes))
         self.assertEqual((v.kind, v.failed), ("ambiguous", True))
 
     def test_fenced_json_is_accepted_nothing_else(self):
@@ -117,7 +118,7 @@ class Recording(unittest.TestCase):
 
     def test_judge_cannot_write_the_record(self):
         # the judge returns a Verdict and holds no reference to the record
-        v = StubJudge(STUB_TABLE).judge(OLD, SCENARIOS["noise"].new_text, [])
+        v = StubJudge(STUB_TABLE).judge(OLD, SCENARIOS["noise"].new_text, Erie().retrieve(None, SCENARIOS["noise"].outcomes))
         self.assertEqual(set(v.__dataclass_fields__), {"kind", "reason", "evidence", "failed"})
 
 

@@ -1,43 +1,34 @@
-# REPORT: Test 1 follow-up, three change kinds (OCME-002-evo)
+# REPORT: OCME-003-evo, fix the judge prompt with ERIE evidence
 
-Branch `feat/change-kinds`, on top of `feat/appworld-harness-flip` at `4d40fe1`. CoEvoBench commit referenced: `d39a924c8985806933c94777d8e969d6e756262c` (read only, no code run or copied).
+Branch `feat/erie-judge-evidence`, on `feat/change-kinds` at `99c17b8`. CoEvoBench commit referenced: `d39a924c8985806933c94777d8e969d6e756262c` (read only).
 
 ## Read this first
-Still a **simulation**. Nothing is trained, no model is served, no AppWorld run. The simulator's outcomes come from the paper's constants (+5, -4, +4) and a hidden truth per script. **The live judge is unproven: no `NIM_API_KEY` was available on the build machine** (a key needs a sign-up at build.nvidia.com that I cannot do). Every judge result below is from a **stub**, which is a lookup table and so is "right" by construction. That proves the wiring, not the judgment.
+Still a simulation: nothing trained, no model served, no AppWorld run. **The live judge is not proven here.** No `NIM_API_KEY` was in the build environment and I do not take keys in chat. Everything below marked "stub" is a lookup table that is right by construction: it proves the wiring, not the judgment. The pass bar to beat is the live run Darren reported (2 of 3 right, ambiguous-that-matters called logical, and ambiguous-harmless also logical). I did not see that run's output, so I cannot quote it. Whether the new prompt fixes the miss is **unknown until the live run is done**.
 
 ## What changed
-- `judge.py`: the judge only classifies. Returns `{kind, reason, evidence}`. Anything that does not parse, is not one of the three kinds, has empty reason or evidence, or errors/times out becomes a **failed judgment recorded as ambiguous**. `NimJudge` calls `nvidia/nemotron-3-ultra-550b-a55b` at `NIM_BASE_URL` (default `https://integrate.api.nvidia.com/v1`) with `NIM_API_KEY` from env only. `StubJudge` needs no key.
-- `arms.py` (KATIE wrapper) decides what a kind means. Each judgment gets its own KID with reason and evidence. **Noise**: same epoch, old trajectories and weights stay usable. **Logical**: new epoch, stale data blocked, stale weights not served (Base served). **Ambiguous**: a `hold` KID is recorded, old weights not served, mixed sets refused. A probe (run the held weights on the selection set under both harnesses) then resolves it with a `resolution` entry that supersedes the hold; the hold stays in the record. The probe is my addition: the order says hold "until probed" but does not say how.
-- `scenarios.py`: `noise`, `logical`, `ambiguous` (one text, two hidden truths: `ambiguous_matters`, `ambiguous_harmless`, because "might matter, might not" needs both).
-- `sim.py`: mix rules `linear`, `stale_wins`, `majority`. Control arm is unchanged: raw history, no tags, no gate, no judge.
-- `live.py`: `python -m katie_coevobench.live` makes one real call per script and saves `results/live-judge.json` (no key in it). Not run yet.
-- Tests: 33 (was 15), `python -m unittest discover -s tests -t .`. They cover each kind, failed judgments never guessing, KID with reason recorded and old entries untouched, the mix rules. With the hold logic disabled 4 tests fail.
+Three jobs, kept apart:
+- **ERIE retrieves** (`erie.py`, read only). Builds an evidence packet: for each example task the old and new answers and whether the change touches that task; plus up to 3 earlier judgments from the test record, each with its KID, kind and what the next training job did. Every item has an id (E1..), source, and authority 0-9, plus a retrieval fact `shows`: `changed`, `unchanged` (touched, same answer), or `nothing` (untouched task, proves nothing). `StubErie` returns a fixed packet per script.
+- **The judge classifies** (`judge.py`) from the packet only, and cites ids. Typed JSON `{kind, reason, evidence}` as before. Unparseable means failed means ambiguous, as before. New backstop in code that mirrors the prompt rule: `logical` must cite an example that shows a changed answer; `noise` must cite a touched unchanged example and the packet must hold no changed answer; a packet with no outcome never yields logical, and the judge is not even called. A claim the evidence does not support becomes a failed judgment, recorded ambiguous.
+- **KATIE acts** (`arms.py`), unchanged. It now also records an `evidence` entry (full packet, own KID) before the `judgment` entry, which carries `evidence_kid` and the cited ids. Nothing is overwritten.
 
-## Numbers (selection set, Base 14; stub judge; counts identical across 3 seeds)
-| Script | Arm | S0 | S1 | S2 revised | S3 | S4 | Jobs / hurt / skipped | Test |
-|---|---|---|---|---|---|---|---|---|
-| noise | Control | 14 | 19 | 19 | 19 | 19 | 2 / 0 / 0 | 19 |
-| noise | KATIE (noise) | 14 | 19 | 19 | 19 | 19 | 2 / 0 / 0 | 19 |
-| logical | Control | 14 | 19 | 10 | 13 | 18 | 3 / 1 / 0 | 18 |
-| logical | KATIE (logical) | 14 | 19 | 14 | 14 | 18 | 2 / 0 / 1 | 18 |
-| ambiguous, truly matters | Control | 14 | 19 | 10 | 13 | 18 | 3 / 1 / 0 | 18 |
-| ambiguous, truly matters | KATIE (hold, probe: logical) | 14 | 19 | 14 | 14 | 18 | 2 / 0 / 1 | 18 |
-| ambiguous, harmless | Control | 14 | 19 | 19 | 19 | 19 | 2 / 0 / 0 | 19 |
-| ambiguous, harmless | KATIE (hold, probe: noise) | 14 | 19 | **14** | 14 | 19 | 2 / 0 / 1 | 19 |
+## Prompts
+Old (OCME-002): old text, new text, "example tasks before and after" (outcome words only), "if you cannot tell, answer ambiguous". Evidence field = the changed part of the harness. Kept in code as `PROMPT_V1`, unused.
+New: same kinds, plus the EVIDENCE PACKET and rules: *1. If no example shows a changed answer, say ambiguous. Do not infer logical from the harness text alone, however real the change looks. 2. A task the change does not touch proves nothing. 3. Cite the evidence you used by id. 4. If you cannot tell, answer ambiguous.* Full text: `PROMPT` in `katie_coevobench/judge.py`.
 
-Plain reading: on **noise** KATIE and Control are identical; KATIE adds nothing but the record. On **logical** and **ambiguous-matters** KATIE avoids the -4 dip and one bad job, same end score. On **ambiguous-harmless** KATIE **loses**: the hold throws away +5 for the revision window and skips a job Control ran fine; it ends equal only because it recovers after the probe. That is the price of not guessing.
+## Numbers (selection set, Base 14, identical across 3 seeds)
+| Script | Packet shows | Stub judge | Live judge | KATIE S2 / S4 | Skipped | Control S2 / S4 |
+|---|---|---|---|---|---|---|
+| noise | 2 touched, unchanged | noise | not run | 19 / 19 | 0 | 19 / 19 |
+| logical | 1 changed, 1 unchanged | logical | not run | 14 / 18 | 1 | 10 / 18 |
+| ambiguous, matters | 2 untouched | ambiguous | not run | 14 / 18 | 1 | 10 / 18 |
+| ambiguous, harmless | 2 untouched | ambiguous | not run | 14 / 19 | 1 | 19 / 19 |
 
-## Mix-rule sensitivity (logical script, Control S3 = score at first retrain)
-| Rule | Control S3 | KATIE dip | KATIE skips bad job | Ends equal to Control |
-|---|---|---|---|---|
-| linear (Test 1) | 13 (-1) | 0 | yes | yes (18) |
-| stale wins | **10 (-4)** | 0 | yes | yes (18) |
-| majority wins | **10 (-4)** | 0 | yes | yes (18) |
+Real ERIE retrieval (not the stub packet) feeds the same packets and the stub judge gets all four right. The harmless case still costs KATIE +5 during the hold, as before.
 
-The rule changes Control's S3: under `stale wins` and `majority wins` the mixed job (40 stale + 20 fresh) scores -4, not -1. Under majority, a tie counts as stale (my choice). The KATIE conclusion holds under all three; it never depended on S3.
+Tests: 48 (was 33). New ones cover each kind from evidence, no or no-outcome evidence never gives logical (including a model that says logical anyway), logical and noise citation rules, the prompt text, evidence and citations recorded with KIDs and priors read from the record with their KID, read-only retrieval. With the backstop disabled 4 tests fail.
 
-## Judge: right and wrong
-Stub: right on all four scripts, meaning nothing. Failed-judgment path tested with junk replies: it becomes ambiguous and holds, even on a noise change (a cost, not a bug). Live judge: **not run, no result to report**. To prove it: set `NIM_API_KEY` (and optionally `NIM_BASE_URL`), run `python -m katie_coevobench.live`, then `python -m katie_coevobench.run --live`.
+## Right and wrong
+Stub: right on all four, meaning nothing. Live: no result. By design the new prompt should stop the UTC-dates case from becoming logical, because both example tasks are untouched by the date rule and the packet says so. A real model may still ignore the rule, and the backstop would then downgrade it to ambiguous.
 
 ## Unproven
-Live judge accuracy, especially on the ambiguous text (a real model may call it logical or noise). Any real model or AppWorld behavior. The probe is an oracle on the simulator's truth. The 3 seeds add no variance. Test 2 and 3 not built.
+Live judge accuracy with the new prompt (run `python -m katie_coevobench.live` with `NIM_API_KEY` set; it now covers all four scripts and saves `results/live-judge.json`). Prior-change similarity is not computed: ERIE returns the last 3 judgments, similar or not. Example outcomes are scripted, not replayed from real AppWorld. The backstop makes a wrong live answer of "noise" or "logical" harder, but it cannot catch a correct-looking citation of the wrong item.
