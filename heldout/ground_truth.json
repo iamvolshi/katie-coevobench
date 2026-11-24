@@ -1,0 +1,16 @@
+{
+ "sealed_on": "2026-11-24, before any held-out judge call. The judge code never reads this file.",
+ "rule": "logical = at least one example task's answer changed. noise = at least one touched example, all touched examples unchanged, no prior change that moved an outcome. ambiguous = no example shows a change and no touched example proves nothing changed, or the evidence is mixed (for example touched and unchanged examples but a prior similar change that moved an outcome).",
+ "truth": {
+  "HO-N1": {"kind": "noise", "why": "A tool rename with reordered arguments. Both touched examples keep the same answer."},
+  "HO-N2": {"kind": "noise", "why": "Money text gains a thousands separator, but the checker strips commas. Both touched examples keep the same answer. The text sounds like number handling; the evidence says nothing moved."},
+  "HO-N3": {"kind": "noise", "why": "The scoring section is rewritten as a checklist with the same two conditions. Three touched examples are unchanged, and the one prior change was noise."},
+  "HO-L1": {"kind": "logical", "why": "The numeric tolerance goes from within 1.0 to 2 decimal places. The 4.3 against 4.27 example flips from solved to not solved."},
+  "HO-L2": {"kind": "logical", "why": "Text comparison goes from ignoring case to exact case. The 'adele' against 'Adele' example flips from solved to not solved."},
+  "HO-L3": {"kind": "logical", "why": "The text says no behavior change, but a corrected second answer no longer counts. The corrected-answer example flips from solved to not solved. The prior was noise, which is misleading."},
+  "HO-A1": {"kind": "ambiguous", "why": "Cent rounding could move some money answers, but both examples are whole dollars and untouched, so they prove nothing either way."},
+  "HO-A2": {"kind": "ambiguous", "why": "NFC normalization could move non-ASCII answers, but both examples are plain ASCII and untouched."},
+  "HO-A3": {"kind": "ambiguous", "why": "Paging could change answers for large result sets, but both examples have fewer than 20 matches and are untouched. A prior logical change is in the record but is not evidence about this change."},
+  "HO-A4": {"kind": "ambiguous", "why": "The two touched examples are unchanged, which points to noise, but a prior similar change on percentages moved an outcome. Mixed evidence, so hold."}
+ }
+}

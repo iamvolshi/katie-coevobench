@@ -1,0 +1,73 @@
+[
+ {"id": "HO-N1",
+  "old_text": "You are an AppWorld assistant. Notes live in the `simple_note` app: call simple_note.create(body, title). A task is solved when the final answer equals the expected value exactly and the required state changes are present.",
+  "new_text": "You are an AppWorld assistant. Notes live in the `notes` app: call notes.create(title, body). A task is solved when the final answer equals the expected value exactly and the required state changes are present.",
+  "outcomes": [
+   {"task": "create a note titled 'groceries'", "old_answer": "solved", "new_answer": "solved", "touched": true},
+   {"task": "find the note that mentions 'dentist'", "old_answer": "solved", "new_answer": "solved", "touched": true}],
+  "priors": []},
+ {"id": "HO-N2",
+  "old_text": "Tool output shows money as plain numbers (1250.00). A task is solved when the final answer equals the expected value exactly.",
+  "new_text": "Tool output shows money with a thousands separator (1,250.00). The answer checker strips commas from numbers before comparing. A task is solved when the final answer equals the expected value exactly after commas are stripped.",
+  "outcomes": [
+   {"task": "total of my March expenses", "old_answer": "1250.00 (solved)", "new_answer": "1250.00 (solved)", "touched": true},
+   {"task": "largest single payment in April", "old_answer": "3400.00 (solved)", "new_answer": "3400.00 (solved)", "touched": true}],
+  "priors": []},
+ {"id": "HO-N3",
+  "old_text": "Scoring: a task is solved if the final answer equals the expected value, and every required state change is present.",
+  "new_text": "SCORING CHECKLIST. [ ] The final answer equals the expected value. [ ] Every required state change is present. A task is solved only when both boxes are ticked.",
+  "outcomes": [
+   {"task": "order the cheapest charger and report its price", "old_answer": "solved", "new_answer": "solved", "touched": true},
+   {"task": "remove duplicate contacts", "old_answer": "solved", "new_answer": "solved", "touched": true},
+   {"task": "report my phone plan renewal date", "old_answer": "solved", "new_answer": "solved", "touched": true}],
+  "priors": [{"kind": "noise", "reason": "An earlier prompt rewording moved no answer.", "next_job_hurt": false}]},
+ {"id": "HO-L1",
+  "old_text": "Numeric answers are correct when they are within 1.0 of the expected value.",
+  "new_text": "Numeric answers are correct only when they equal the expected value to 2 decimal places.",
+  "outcomes": [
+   {"task": "average rating of my saved songs (expected 4.27, agent answers 4.3)", "old_answer": "solved", "new_answer": "NOT solved", "touched": true},
+   {"task": "number of unread emails (expected 12, agent answers 12)", "old_answer": "solved", "new_answer": "solved", "touched": true}],
+  "priors": []},
+ {"id": "HO-L2",
+  "old_text": "Text answers are compared ignoring case.",
+  "new_text": "Text answers are compared exactly, including case.",
+  "outcomes": [
+   {"task": "name of my most played artist (expected 'Adele', agent answers 'adele')", "old_answer": "solved", "new_answer": "NOT solved", "touched": true},
+   {"task": "title of my last note (expected 'Groceries', agent answers 'Groceries')", "old_answer": "solved", "new_answer": "solved", "touched": true}],
+  "priors": []},
+ {"id": "HO-L3",
+  "old_text": "Tidy-up pass: you may submit a corrected final answer once if your first submission is wrong. The second submission is the one scored.",
+  "new_text": "Tidy-up pass, no behavior change intended: the first submitted answer is the one scored.",
+  "outcomes": [
+   {"task": "agent first answers $40, then corrects to $45 (expected $45)", "old_answer": "solved", "new_answer": "NOT solved", "touched": true},
+   {"task": "agent answers $12 on the first try (expected $12)", "old_answer": "solved", "new_answer": "solved", "touched": true}],
+  "priors": [{"kind": "noise", "reason": "An earlier tidy-up of the prompt moved no answer.", "next_job_hurt": false}]},
+ {"id": "HO-A1",
+  "old_text": "Money answers are compared exactly.",
+  "new_text": "Money answers are rounded to the nearest cent before comparison.",
+  "outcomes": [
+   {"task": "how much did I spend on coffee (whole dollars)", "old_answer": "solved", "new_answer": "solved", "touched": false},
+   {"task": "total of my three venmo payments (whole dollars)", "old_answer": "solved", "new_answer": "solved", "touched": false}],
+  "priors": []},
+ {"id": "HO-A2",
+  "old_text": "Text answers are compared byte for byte.",
+  "new_text": "Text answers are NFC-normalized before comparison.",
+  "outcomes": [
+   {"task": "the name of my coach", "old_answer": "solved", "new_answer": "solved", "touched": false},
+   {"task": "the title of my main playlist", "old_answer": "solved", "new_answer": "solved", "touched": false}],
+  "priors": []},
+ {"id": "HO-A3",
+  "old_text": "The contacts tool returns all matching contacts in one call.",
+  "new_text": "The contacts tool returns at most 20 matches per call, plus a page token for the rest.",
+  "outcomes": [
+   {"task": "find my sister's phone number (3 matches)", "old_answer": "solved", "new_answer": "solved", "touched": false},
+   {"task": "list the contacts at Acme (5 matches)", "old_answer": "solved", "new_answer": "solved", "touched": false}],
+  "priors": [{"kind": "logical", "reason": "An earlier stricter scoring rule changed which tasks count as solved.", "next_job_hurt": true}]},
+ {"id": "HO-A4",
+  "old_text": "Tool output shows percentages as fractions (0.25).",
+  "new_text": "Tool output shows percentages as percent text (25%). The checker accepts either form.",
+  "outcomes": [
+   {"task": "my savings rate", "old_answer": "0.25 (solved)", "new_answer": "0.25 (solved)", "touched": true},
+   {"task": "discount on my last order", "old_answer": "0.1 (solved)", "new_answer": "0.1 (solved)", "touched": true}],
+  "priors": [{"kind": "logical", "reason": "An earlier change to how percentages are scored changed which tasks count as solved.", "next_job_hurt": true}]}
+]

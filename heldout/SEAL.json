@@ -1,0 +1,13 @@
+{
+ "note": "sha256 of LF-normalized files, sealed before any held-out judge call",
+ "sealed": {
+  "heldout/ground_truth.json": "6d39f8f263db1533b2bf30e079d793338484aa95c7d878c6ead8708bfefd19e2",
+  "heldout/changes.json": "f17b3139ce9aa70453732650c27bd1fbd62a698e93ff755d6e1ff62bcf825705"
+ },
+ "frozen_from_commit": "d21bf84",
+ "frozen": {
+  "katie_coevobench/judge.py": "a6924fb5f1e82fc7ef6f345e90c4e015b1689335165eb8db39a7a5682d79bd0c",
+  "katie_coevobench/erie.py": "9df36c07ba515c21ee1470e007ef988e9ac8ec87645e9e0f9f4815b8e174245d",
+  "PROMPT": "9f744f0114bad529cdbcad8d9afdf20e0fb5e22abc8855072ed187675e7f2a8b"
+ }
+}

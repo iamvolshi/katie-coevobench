@@ -31,6 +31,7 @@ class Scenario:
     outcomes: tuple[Outcome, ...]   # replayed example tasks with actual answers (what ERIE retrieves)
     true_kind: str          # what a careful human would say; used only to mark the judge right or wrong
     epoch_changes: bool     # hidden simulator truth: does the correct answer actually move?
+    old_text: str = OLD
 
 
 _DATE_FREE = (Outcome("list songs in the top playlist", "solved", "solved", False),

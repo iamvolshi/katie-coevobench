@@ -11,7 +11,7 @@ from .record import Record
 from .sim import World, Weights, Traj
 from .judge import Judge, StubJudge, Verdict, cited_ids
 from .erie import Erie, Packet
-from .scenarios import SCENARIOS, OLD, STUB_TABLE
+from .scenarios import SCENARIOS, Scenario, STUB_TABLE
 
 MIN_TRAIN = 40   # ASSUMPTION: a training job needs at least 40 trajectories
 N_FIRST, N_FRESH_1, N_FRESH_2 = 40, 20, 20
@@ -147,12 +147,15 @@ class KatieWrapper:
         return w
 
 
-def run_arm(arm: str, seed: int, out: Path | None = None, scenario: str = "logical",
-            judge: Judge | None = None, mix: str = "linear", erie=None) -> dict:
-    sc = SCENARIOS[scenario]
+def run_arm(arm: str, seed: int, out: Path | None = None, scenario="logical",
+            judge: Judge | None = None, mix: str = "linear", erie=None, record_seed=None) -> dict:
+    sc = scenario if isinstance(scenario, Scenario) else SCENARIOS[scenario]
+    scenario = sc.name
     world = World(seed, mix)
     tag = f"{scenario}-{mix}-{seed}"
     rec = Record(out / f"record-{arm}-{tag}.jsonl") if out and arm == "katie" else Record()
+    if record_seed and arm == "katie":
+        record_seed(rec)      # earlier history already in the record (held-out priors)
     wrap = KatieWrapper(rec) if arm == "katie" else ControlWrapper()
     judge = judge or StubJudge(STUB_TABLE)
     erie = erie or Erie()
@@ -184,7 +187,7 @@ def run_arm(arm: str, seed: int, out: Path | None = None, scenario: str = "logic
     verdict = packet = None
     if arm == "katie":
         packet = erie.retrieve(rec, sc.outcomes, scenario)          # ERIE retrieves
-        verdict = judge.judge(OLD, sc.new_text, packet)             # the judge classifies; KATIE acts below
+        verdict = judge.judge(sc.old_text, sc.new_text, packet)             # the judge classifies; KATIE acts below
     wrap.revise("V1", f"researcher revised the harness ({scenario})", verdict, packet)
     cur = "H1" if sc.epoch_changes else "H0"
     served = wrap.serve(w1)
