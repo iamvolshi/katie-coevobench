@@ -1,0 +1,71 @@
+{
+  "sealed_on": "Written by Turdy, Nov 24, 2026, before any judge call on this set. Kiro seals this file before the first call. The judge code never reads this file.",
+  "written_by": "Turdy, not Kiro. Kiro wrote the prompt, so this set is independent of the prompt builder.",
+  "run_order": [
+    "H2-N1",
+    "H2-N2",
+    "H2-L1",
+    "H2-L2",
+    "H2-N3",
+    "H2-L3",
+    "H2-A1",
+    "H2-A2",
+    "H2-A3",
+    "H2-A4"
+  ],
+  "rule": "logical = at least one example task's answer changed. noise = at least one touched example, all touched examples unchanged, no prior change that moved an outcome. ambiguous = no example shows a change and no touched example proves nothing changed, or the evidence is mixed (for example touched and unchanged examples but a prior similar change that moved an outcome, or conflicting priors, or only one thin untouched example).",
+  "messy": [
+    "H2-A1",
+    "H2-A2",
+    "H2-A3",
+    "H2-A4"
+  ],
+  "priors_from_real_runs": [
+    "H2-N3",
+    "H2-L3",
+    "H2-A2",
+    "H2-A4"
+  ],
+  "truth": {
+    "H2-N1": {
+      "kind": "noise",
+      "why": "Playlist order changes, but the checker ignores order. Both touched examples keep the same answer."
+    },
+    "H2-N2": {
+      "kind": "noise",
+      "why": "Venmo amounts gain a dollar sign, but the checker strips it. Both touched examples keep the same answer."
+    },
+    "H2-L1": {
+      "kind": "logical",
+      "why": "Times switch from local to UTC. The 9am meeting example flips from solved to NOT solved."
+    },
+    "H2-L2": {
+      "kind": "logical",
+      "why": "Contacts with the same name must now all be listed. The Alex example flips from solved to NOT solved."
+    },
+    "H2-N3": {
+      "kind": "noise",
+      "why": "Email subjects are lower cased, but the checker lower cases both sides. Both touched examples keep the same answer. The prior is noise from the H2-N1 run."
+    },
+    "H2-L3": {
+      "kind": "logical",
+      "why": "The text says wording cleanup, but a money answer must now include the currency symbol. The $80 example flips from solved to NOT solved. The noise prior is misleading."
+    },
+    "H2-A1": {
+      "kind": "ambiguous",
+      "why": "Weights may switch to pounds, but the only example is a count, not a weight, and untouched. Thin evidence, proves nothing either way."
+    },
+    "H2-A2": {
+      "kind": "ambiguous",
+      "why": "Phone formatting may change, but both examples are names and email, untouched. The priors conflict, one noise and one logical, both from real earlier runs in this test."
+    },
+    "H2-A3": {
+      "kind": "ambiguous",
+      "why": "Only Venmo changes, Amazon does not. The Venmo example is touched and unchanged, the Amazon example is untouched. Partial coverage, proves nothing about Venmo amounts."
+    },
+    "H2-A4": {
+      "kind": "ambiguous",
+      "why": "Two touched examples are unchanged, which points to noise, but a prior similar time change, H2-L1, moved an outcome. Mixed evidence, so hold."
+    }
+  }
+}

@@ -1,0 +1,230 @@
+[
+  {
+    "id": "H2-N1",
+    "old_text": "You are an AppWorld assistant. Spotify playlists list songs in the order they were added. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "You are an AppWorld assistant. Spotify playlists list songs in alphabetical order by title. The answer checker ignores song order. A task is solved when the final answer equals the expected value exactly, ignoring order.",
+    "outcomes": [
+      {
+        "task": "list my workout playlist songs",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      },
+      {
+        "task": "name the first song in my morning playlist",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": []
+  },
+  {
+    "id": "H2-N2",
+    "old_text": "Tool output shows Venmo amounts as plain numbers (12). A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Tool output shows Venmo amounts with a dollar sign ($12). The answer checker strips the dollar sign before comparing. A task is solved when the final answer equals the expected value exactly after the dollar sign is stripped.",
+    "outcomes": [
+      {
+        "task": "how much did I send to Sam last week",
+        "old_answer": "12 (solved)",
+        "new_answer": "12 (solved)",
+        "touched": true
+      },
+      {
+        "task": "total Venmo I received in May",
+        "old_answer": "45 (solved)",
+        "new_answer": "45 (solved)",
+        "touched": true
+      }
+    ],
+    "priors": []
+  },
+  {
+    "id": "H2-L1",
+    "old_text": "Task times are read in the user's local time. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Task times are now read as UTC, not local time. A task is solved when the final answer equals the expected value exactly.",
+    "outcomes": [
+      {
+        "task": "what time is my 9am meeting in London (expected 9am local, agent says 9am UTC)",
+        "old_answer": "solved",
+        "new_answer": "NOT solved",
+        "touched": true
+      },
+      {
+        "task": "date of my flight (no time involved)",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": []
+  },
+  {
+    "id": "H2-L2",
+    "old_text": "When several contacts share a name, the agent may return any one of them. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "When several contacts share a name, the agent must return all of them. A task is solved only when the final answer lists every matching contact.",
+    "outcomes": [
+      {
+        "task": "phone number for Alex (expected both Alex Lee and Alex Kim)",
+        "old_answer": "solved",
+        "new_answer": "NOT solved",
+        "touched": true
+      },
+      {
+        "task": "phone number for my sister (only one match)",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": []
+  },
+  {
+    "id": "H2-N3",
+    "old_text": "Tool output shows email subjects exactly as sent. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Tool output shows email subjects in lower case. The answer checker lower cases both sides before comparing. A task is solved when the final answer equals the expected value exactly after lower casing.",
+    "outcomes": [
+      {
+        "task": "subject of the email from my landlord",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      },
+      {
+        "task": "subject of the email about the dentist",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": [
+      {
+        "kind": "noise",
+        "reason": "Produced by an earlier run in this same test: H2-N1, a reordering that moved no answer. Do not seed this by hand; take it from the H2-N1 run.",
+        "source_run": "H2-N1",
+        "next_job_hurt": false
+      }
+    ]
+  },
+  {
+    "id": "H2-L3",
+    "old_text": "A money answer is accepted with or without a currency symbol. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "This is only a wording cleanup. A money answer must now include the currency symbol, or it does not count. A task is solved only when the final answer includes the currency symbol.",
+    "outcomes": [
+      {
+        "task": "total I spent on groceries (expected $80, agent says 80)",
+        "old_answer": "solved",
+        "new_answer": "NOT solved",
+        "touched": true
+      },
+      {
+        "task": "number of items in my cart (no money involved)",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": [
+      {
+        "kind": "noise",
+        "reason": "Produced by an earlier run in this same test: H2-N2, a dollar-sign display change that moved no answer. This prior is misleading here; the evidence still shows a changed answer.",
+        "source_run": "H2-N2",
+        "next_job_hurt": false
+      }
+    ]
+  },
+  {
+    "id": "H2-A1",
+    "old_text": "Weights are shown in kilograms. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Weights may now be shown in pounds instead of kilograms. A task is solved when the final answer equals the expected value exactly.",
+    "outcomes": [
+      {
+        "task": "how many books did I order (a count, not a weight)",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": false
+      }
+    ],
+    "priors": []
+  },
+  {
+    "id": "H2-A2",
+    "old_text": "Phone numbers are shown with no formatting. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Phone numbers may now be shown with dashes (555-1234). A task is solved when the final answer equals the expected value exactly.",
+    "outcomes": [
+      {
+        "task": "name of my most called contact",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": false
+      },
+      {
+        "task": "email address of my dentist",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": false
+      }
+    ],
+    "priors": [
+      {
+        "kind": "noise",
+        "reason": "Produced by an earlier run in this same test: H2-N2. Conflicts with the logical prior below.",
+        "source_run": "H2-N2",
+        "next_job_hurt": false
+      },
+      {
+        "kind": "logical",
+        "reason": "Produced by an earlier run in this same test: H2-L2, a stricter answer rule that changed which tasks count as solved. Conflicts with the noise prior above.",
+        "source_run": "H2-L2",
+        "next_job_hurt": true
+      }
+    ]
+  },
+  {
+    "id": "H2-A3",
+    "old_text": "Venmo payments and Amazon orders are both listed in the same way. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Venmo payments now list the sender first, then the amount. Amazon orders are unchanged. A task is solved when the final answer equals the expected value exactly.",
+    "outcomes": [
+      {
+        "task": "who sent me the last Venmo payment",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      },
+      {
+        "task": "what did I order on Amazon last week",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": false
+      }
+    ],
+    "priors": []
+  },
+  {
+    "id": "H2-A4",
+    "old_text": "Meeting times are shown in local time. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Meeting times may now be shown in 24-hour format instead of 12-hour format. A task is solved when the final answer equals the expected value exactly.",
+    "outcomes": [
+      {
+        "task": "what day is my dentist appointment (date only, no time)",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      },
+      {
+        "task": "what day is my flight (date only, no time)",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": [
+      {
+        "kind": "logical",
+        "reason": "Produced by an earlier run in this same test: H2-L1, a time rule that moved an outcome. Mixed evidence: the two touched examples here are unchanged, but a prior similar time change moved an outcome.",
+        "source_run": "H2-L1",
+        "next_job_hurt": true
+      }
+    ]
+  }
+]
