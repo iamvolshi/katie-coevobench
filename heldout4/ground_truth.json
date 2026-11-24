@@ -29,43 +29,53 @@
   "truth": {
     "H4-N1": {
       "kind": "noise",
-      "why": "Note order changes, but the checker ignores order. Both touched examples keep the same answer, and every example is touched."
+      "why": "Note order changes, but the checker ignores order. Both touched examples keep the same answer, and every example is touched.",
+      "partial": false
     },
     "H4-N2": {
       "kind": "noise",
-      "why": "Dates gain a written format, but the checker reads both as the same date. Both touched examples keep the same answer, and every example is touched."
+      "why": "Dates gain a written format, but the checker reads both as the same date. Both touched examples keep the same answer, and every example is touched.",
+      "partial": false
     },
     "H4-L1": {
       "kind": "logical",
-      "why": "Extra spaces are no longer ignored. The Adele with a trailing space example flips from solved to NOT solved."
+      "why": "Extra spaces are no longer ignored. The Adele with a trailing space example flips from solved to NOT solved.",
+      "partial": false
     },
     "H4-L2": {
       "kind": "logical",
-      "why": "Totals must now be exact, no rounding. The 12.50 rounded to 13 example flips from solved to NOT solved."
+      "why": "Totals must now be exact, no rounding. The 12.50 rounded to 13 example flips from solved to NOT solved.",
+      "partial": false
     },
     "H4-N3": {
       "kind": "noise",
-      "why": "Times switch to 24-hour, but the checker reads both formats as the same time. Both touched examples keep the same answer, and every example is touched. The prior is noise from the H4-N1 run."
+      "why": "Times switch to 24-hour, but the checker reads both formats as the same time. Both touched examples keep the same answer, and every example is touched. The prior is noise from the H4-N1 run.",
+      "partial": false
     },
     "H4-L3": {
       "kind": "logical",
-      "why": "The text says wording cleanup, but a contact must now be found by full name. The first-name-only example flips from solved to NOT solved. The noise prior is misleading."
+      "why": "The text says wording cleanup, but a contact must now be found by full name. The first-name-only example flips from solved to NOT solved. The noise prior is misleading.",
+      "partial": false
     },
     "H4-A1": {
       "kind": "ambiguous",
-      "why": "Amounts may switch to euros, but the only example is a count, not an amount, and untouched. Thin evidence, proves nothing either way."
+      "why": "Amounts may switch to euros, but the only example is a count, not an amount, and untouched. Thin evidence, proves nothing either way.",
+      "partial": false
     },
     "H4-A2": {
       "kind": "ambiguous",
-      "why": "Tasks may switch to French, but both examples are counts, untouched. The priors conflict, one noise and one logical, both from real earlier runs in this test."
+      "why": "Tasks may switch to French, but both examples are counts, untouched. The priors conflict, one noise and one logical, both from real earlier runs in this test.",
+      "partial": false
     },
     "H4-A3": {
       "kind": "ambiguous",
-      "why": "Only calendar changes, email does not. The calendar example is touched and unchanged, the email example is untouched. Partial coverage, proves nothing about calendar locations."
+      "why": "Only calendar changes, email does not. The calendar example is touched and unchanged, the email example is untouched. Partial coverage, proves nothing about calendar locations.",
+      "partial": true
     },
     "H4-A4": {
       "kind": "ambiguous",
-      "why": "Only notes change, files do not. The note example is touched and unchanged, the file example is untouched. Partial coverage, and a prior similar strict rule moved an outcome."
+      "why": "Only notes change, files do not. The note example is touched and unchanged, the file example is untouched. Partial coverage, and a prior similar strict rule moved an outcome.",
+      "partial": true
     }
   }
 }
