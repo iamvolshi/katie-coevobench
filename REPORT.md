@@ -1,35 +1,37 @@
-# REPORT: OCME-003-evo, fix the judge prompt with ERIE evidence
+# REPORT: OCME-004-evo, held-out test of the judge
 
-Branch `feat/erie-judge-evidence`, on `feat/change-kinds` at `99c17b8`. CoEvoBench commit referenced: `d39a924c8985806933c94777d8e969d6e756262c` (read only).
+Branch `feat/held-out-judge`. Follows `feat/erie-judge-evidence` at `d21bf84` (its report is on that branch). Still a simulation: nothing trained, no AppWorld run. Judge: `nvidia/nemotron-3-ultra-550b-a55b`, `https://integrate.api.nvidia.com/v1`, temperature 0, `max_tokens` 8192, key from env only (not in any file or result).
 
-## Read this first
-Still a simulation: nothing trained, no model served, no AppWorld run. **The live judge was run** against Nemotron 3 Ultra (`nvidia/nemotron-3-ultra-550b-a55b`, `https://integrate.api.nvidia.com/v1`, key from env only, not in any file). The example outcomes it judges are scripted, not replayed from AppWorld. Bar to beat: Darren's Nov 24 live run, 2 of 3 right, ambiguous missed (I did not see its output).
-## What changed
-Three jobs, kept apart:
-- **ERIE retrieves** (`erie.py`, read only). Builds an evidence packet: for each example task the old and new answers and whether the change touches that task; plus up to 3 earlier judgments from the test record, each with its KID, kind and what the next training job did. Every item has an id (E1..), source, and authority 0-9, plus a retrieval fact `shows`: `changed`, `unchanged` (touched, same answer), or `nothing` (untouched task, proves nothing). `StubErie` returns a fixed packet per script.
-- **The judge classifies** (`judge.py`) from the packet only, and cites ids. Typed JSON `{kind, reason, evidence}` as before. Unparseable means failed means ambiguous, as before. New backstop in code that mirrors the prompt rule: `logical` must cite an example that shows a changed answer; `noise` must cite a touched unchanged example and the packet must hold no changed answer; a packet with no outcome never yields logical, and the judge is not even called. A claim the evidence does not support becomes a failed judgment, recorded ambiguous.
-- **KATIE acts** (`arms.py`), unchanged. It now also records an `evidence` entry (full packet, own KID) before the `judgment` entry, which carries `evidence_kid` and the cited ids. Nothing is overwritten.
+## Headline
+**30 of 30 calls right after the backstop, 27 of 30 from the model alone.** That is 10 of 10 changes, 3 calls each. It is not lower than 12 of 12 on the face of it, but read the caveats: the model got one change (HO-A4) wrong all 3 times, and only the code backstop turned it into the right answer.
 
-## Prompts
-Old (OCME-002): old text, new text, "example tasks before and after" (outcome words only), "if you cannot tell, answer ambiguous". Evidence field = the changed part of the harness. Kept in code as `PROMPT_V1`, unused.
-New: same kinds, plus the EVIDENCE PACKET and rules: *1. If no example shows a changed answer, say ambiguous. Do not infer logical from the harness text alone, however real the change looks. 2. A task the change does not touch proves nothing. 3. Cite the evidence you used by id. 4. If you cannot tell, answer ambiguous.* Full text: `PROMPT` in `katie_coevobench/judge.py`.
+## How it was kept honest
+- 10 new changes (3 noise, 3 logical, 4 ambiguous), different tools, scoring, number, text and paging rules. None reuses an earlier script (test-checked). Files: `heldout/changes.json` (what the judge sees), `heldout/ground_truth.json` (kind plus reason, written before any call).
+- Sealed: `heldout/SEAL.json` holds sha256 of both files and of the frozen `judge.py`, `erie.py` and `PROMPT`. Sealed in commit `2762c74` ("SEAL:") and pushed **before** the first call. A test checks the hashes, that the truth is loaded only after the calls in `heldout.main`, that no judge code mentions the truth file, and that the live results commit comes after the seal.
+- Frozen: `judge.py` equals the `d21bf84` file byte for byte (hash, and the prompt and backstop text compared to that commit). No prompt, ERIE or backstop change. No rerun. This is the only run.
 
-## Numbers (selection set, Base 14, identical across 3 seeds)
-| Script | Packet shows | Stub judge | Live judge (3 calls each) | KATIE S2 / S4 | Skipped | Control S2 / S4 |
+## Results (3 live calls each; every call is in `results/live-judge-held-out.json`)
+| Change | Truth | Judge (3 calls) | Model alone | Cited | Prior in packet | KATIE acted |
 |---|---|---|---|---|---|---|
-| noise | 2 touched, unchanged | noise | noise x3 | 19 / 19 | 0 | 19 / 19 |
-| logical | 1 changed, 1 unchanged | logical | logical x3 | 14 / 18 | 1 | 10 / 18 |
-| ambiguous, matters | 2 untouched | ambiguous | ambiguous x3 | 14 / 18 | 1 | 10 / 18 |
-| ambiguous, harmless | 2 untouched | ambiguous | ambiguous x3 | 14 / 19 | 1 | 19 / 19 |
+| HO-N1 tool rename | noise | noise x3 | noise x3 | E1,E2 | no | right |
+| HO-N2 money commas, checker strips them | noise | noise x3 | noise x3 | E1,E2 | no | right |
+| HO-N3 scoring as checklist | noise | noise x3 | noise x3 | E1-E3 | noise | right |
+| HO-L1 tolerance 1.0 to 2 decimals | logical | logical x3 | logical x3 | E1 | no | right |
+| HO-L2 case-insensitive to exact | logical | logical x3 | logical x3 | E1 | no | right |
+| HO-L3 "no behavior change" but 2nd answer dropped | logical | logical x3 | logical x3 | E1 | noise | right |
+| HO-A1 cent rounding, whole-dollar examples | ambiguous | ambiguous x3 | ambiguous x3 | E1,E2 | no | right |
+| HO-A2 NFC text, ASCII examples | ambiguous | ambiguous x3 | ambiguous x3 | E1,E2 | no | right |
+| HO-A3 paging at 20, small result sets | ambiguous | ambiguous x3 | ambiguous x3 | E1,E2 | logical | right |
+| **HO-A4** percent text, prior change moved an outcome | ambiguous | ambiguous x3 (recorded as failed) | **noise x3** | none | logical | right, via backstop |
 
-Real ERIE retrieval (not the stub packet) feeds the same packets and the stub judge gets all four right. The harmless case still costs KATIE +5 during the hold, as before.
+**Where the model was wrong:** HO-A4. Two touched examples were unchanged, so it said noise and cited nothing. The packet also held a prior logical change on percentages. The backstop rejected noise ("packet holds a changed answer") and recorded a failed judgment, which holds. Correct outcome, wrong model. The model ignored the prior item; the code did not.
+**Traps it passed:** HO-L3's text says no behavior change and a misleading noise prior, yet it cited the changed example. HO-N2 and HO-A3 look like real changes and it read the evidence instead.
 
-Tests: 48 (was 33). New ones cover each kind from evidence, no or no-outcome evidence never gives logical (including a model that says logical anyway), logical and noise citation rules, the prompt text, evidence and citations recorded with KIDs and priors read from the record with their KID, read-only retrieval. With the backstop disabled 4 tests fail.
+## Full pipeline, live judge, logical and ambiguous changes (seed 1; ambiguous run under both hidden truths)
+KATIE ended **equal to Control** on selection and test in all 11 runs, and skipped 1 job each time. Where the change really moved answers (logical, ambiguous-matters), KATIE avoided the -4 dip (S2 14 vs Control 10). Where an ambiguous change was harmless (4 runs), KATIE paid for the hold: S2 14 vs Control 19, ending equal at 19. Same numbers as the OCME-002 and 003 scripts, because the simulator scores by kind, not by content. Details: `results/pipeline-held-out.json`.
 
-## Right and wrong (live)
-**12 of 12 calls right, 0 failed judgments. The new prompt fixes the miss:** the UTC-dates change is called ambiguous in all 6 calls, citing E1 and E2 as "not touched, so they prove nothing". The full pipeline with the live judge (`python -m katie_coevobench.run --live`, 3 seeds, 7 configurations) also got 18 of 18 kinds right and reproduced the stub numbers exactly. Two things went wrong on the way, both fixed and both worth knowing:
-1. First live call on `noise` failed: the model replied with empty content (it spent its 2048-token budget on reasoning). Recorded as ambiguous and held, as designed. Fixed by raising `max_tokens` to 8192.
-2. My first prompt copied Darren's rule literally ("if no example shows a changed answer, say ambiguous"). That contradicts the noise definition, and the model called `noise` ambiguous in 2 of 3 probe calls. I reworded rule 1 to "do not say logical", then "touched and unchanged means noise, untouched or thin means ambiguous". **I tuned the prompt on these same four scripts after seeing them**, so 12 of 12 is not a held-out score. Temperature is 0 but replies still varied between calls.
-
-## Unproven
-Accuracy on harness changes the prompt was not tuned on. Prior-change similarity is not computed: ERIE returns the last 3 judgments, similar or not (the live runs had none, so priors were never exercised live). Example outcomes are scripted, not real replays. The backstop cannot catch a correct-looking citation of the wrong item. Results are in `results/live-judge.json` and `results/results-live.json`.
+## Caveats, plainly
+- **I wrote the set, the prompt and the truth.** Sealing stops retuning after the fact; it does not make the set independent or adversarial. The truth follows the same written rule as the prompt (a test confirms that), so this mostly measures whether the model follows the rule given clean evidence.
+- Only HO-A4 stressed the model; one change is thin evidence about priors. Priors were exercised live in 4 changes (N3, L3, A3, A4), seeded into the record as history, not produced by real earlier runs.
+- Outcomes are scripted, not replayed from AppWorld. Temperature 0 did not give identical text between calls earlier, though here all 30 kinds were stable.
+- Unproven: changes whose evidence is genuinely messy (partial changes, conflicting examples), and a judge that sees no ERIE packet at all.
