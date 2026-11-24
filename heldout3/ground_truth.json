@@ -1,0 +1,71 @@
+{
+  "sealed_on": "Written by Turdy, Nov 24, 2026, before any judge call on this set. Kiro seals this file before the first call. The judge code never reads this file.",
+  "written_by": "Turdy, not Kiro. Kiro wrote the prompt, so this set is independent of the prompt builder.",
+  "run_order": [
+    "H3-N1",
+    "H3-N2",
+    "H3-L1",
+    "H3-L2",
+    "H3-N3",
+    "H3-L3",
+    "H3-A1",
+    "H3-A2",
+    "H3-A3",
+    "H3-A4"
+  ],
+  "rule": "logical = at least one example task's answer changed. noise = at least one touched example, all touched examples unchanged, no prior change that moved an outcome. ambiguous = no example shows a change and no touched example proves nothing changed, or the evidence is mixed (for example touched and unchanged examples but a prior similar change that moved an outcome, or conflicting priors, or only one thin untouched example, or partial coverage).",
+  "messy": [
+    "H3-A1",
+    "H3-A2",
+    "H3-A3",
+    "H3-A4"
+  ],
+  "priors_from_real_runs": [
+    "H3-N3",
+    "H3-L3",
+    "H3-A2",
+    "H3-A4"
+  ],
+  "truth": {
+    "H3-N1": {
+      "kind": "noise",
+      "why": "Calendar colour changes, but the checker ignores colour. Both touched examples keep the same answer."
+    },
+    "H3-N2": {
+      "kind": "noise",
+      "why": "File names gain spaces, but the checker treats underscores and spaces as the same. Both touched examples keep the same answer."
+    },
+    "H3-L1": {
+      "kind": "logical",
+      "why": "Password length goes from 8 to 12. The 10-character example flips from solved to NOT solved."
+    },
+    "H3-L2": {
+      "kind": "logical",
+      "why": "Reminders must now be before the event. The after-the-event example flips from solved to NOT solved."
+    },
+    "H3-N3": {
+      "kind": "noise",
+      "why": "Search results are sorted by relevance, but the checker ignores order. Both touched examples keep the same answer. The prior is noise from the H3-N1 run."
+    },
+    "H3-L3": {
+      "kind": "logical",
+      "why": "The text says clarification, but a note must now have a title. The no-title example flips from solved to NOT solved. The noise prior is misleading."
+    },
+    "H3-A1": {
+      "kind": "ambiguous",
+      "why": "Text may switch to Spanish, but the only example is a count, not text, and untouched. Thin evidence, proves nothing either way."
+    },
+    "H3-A2": {
+      "kind": "ambiguous",
+      "why": "Images may switch to thumbnails, but both examples are names and titles, untouched. The priors conflict, one noise and one logical, both from real earlier runs in this test."
+    },
+    "H3-A3": {
+      "kind": "ambiguous",
+      "why": "Only Spotify changes, Venmo does not. The Spotify example is touched and unchanged, the Venmo example is untouched. Partial coverage, proves nothing about Spotify titles."
+    },
+    "H3-A4": {
+      "kind": "ambiguous",
+      "why": "Two touched examples are unchanged, which points to noise, but a prior similar password change, H3-L1, moved an outcome. Mixed evidence, so hold."
+    }
+  }
+}

@@ -1,0 +1,230 @@
+[
+  {
+    "id": "H3-N1",
+    "old_text": "You are an AppWorld assistant. Calendar events are shown in blue. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "You are an AppWorld assistant. Calendar events are shown in green. The answer checker ignores event colour. A task is solved when the final answer equals the expected value exactly, ignoring colour.",
+    "outcomes": [
+      {
+        "task": "what is my first meeting on Monday",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      },
+      {
+        "task": "how many meetings do I have on Friday",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": []
+  },
+  {
+    "id": "H3-N2",
+    "old_text": "Tool output shows file names with underscores (my_notes). A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Tool output shows file names with spaces (my notes). The answer checker treats underscores and spaces as the same. A task is solved when the final answer equals the expected value exactly after that normalisation.",
+    "outcomes": [
+      {
+        "task": "find the file called my_notes",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      },
+      {
+        "task": "list my files from last week",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": []
+  },
+  {
+    "id": "H3-L1",
+    "old_text": "A password is accepted if it is at least 8 characters long. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "A password is accepted only if it is at least 12 characters long. A task is solved when the final answer equals the expected value exactly.",
+    "outcomes": [
+      {
+        "task": "set my password to sunshine9 (10 characters, expected accepted)",
+        "old_answer": "solved",
+        "new_answer": "NOT solved",
+        "touched": true
+      },
+      {
+        "task": "set my password to sunshine1234 (14 characters)",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": []
+  },
+  {
+    "id": "H3-L2",
+    "old_text": "A reminder may be set at any time. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "A reminder must now be set before the event starts, not after it. A task is solved only when the reminder is before the event.",
+    "outcomes": [
+      {
+        "task": "remind me about my dentist appointment 10 minutes after it starts",
+        "old_answer": "solved",
+        "new_answer": "NOT solved",
+        "touched": true
+      },
+      {
+        "task": "remind me about my flight 1 hour before it starts",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": []
+  },
+  {
+    "id": "H3-N3",
+    "old_text": "Tool output shows search results in the order they were found. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Tool output shows search results sorted by relevance. The answer checker ignores result order. A task is solved when the final answer equals the expected value exactly, ignoring order.",
+    "outcomes": [
+      {
+        "task": "find my notes about the dentist",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      },
+      {
+        "task": "find my emails about the landlord",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": [
+      {
+        "kind": "noise",
+        "reason": "Produced by an earlier run in this same test: H3-N1, a colour change that moved no answer. Do not seed this by hand; take it from the H3-N1 run.",
+        "source_run": "H3-N1",
+        "next_job_hurt": false
+      }
+    ]
+  },
+  {
+    "id": "H3-L3",
+    "old_text": "A note may be saved with or without a title. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "This is only a clarification. A note must now have a title, or it does not count. A task is solved only when the note has a title.",
+    "outcomes": [
+      {
+        "task": "save a note with no title (expected saved)",
+        "old_answer": "solved",
+        "new_answer": "NOT solved",
+        "touched": true
+      },
+      {
+        "task": "save a note titled groceries",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": [
+      {
+        "kind": "noise",
+        "reason": "Produced by an earlier run in this same test: H3-N2, a file-name display change that moved no answer. This prior is misleading here; the evidence still shows a changed answer.",
+        "source_run": "H3-N2",
+        "next_job_hurt": false
+      }
+    ]
+  },
+  {
+    "id": "H3-A1",
+    "old_text": "All text is in English. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Text may now be in Spanish instead of English. A task is solved when the final answer equals the expected value exactly.",
+    "outcomes": [
+      {
+        "task": "how many emails did I get today (a count, not text)",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": false
+      }
+    ],
+    "priors": []
+  },
+  {
+    "id": "H3-A2",
+    "old_text": "Images are shown at full size. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Images may now be shown as thumbnails instead of full size. A task is solved when the final answer equals the expected value exactly.",
+    "outcomes": [
+      {
+        "task": "name of the artist in my playlist",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": false
+      },
+      {
+        "task": "title of my last note",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": false
+      }
+    ],
+    "priors": [
+      {
+        "kind": "noise",
+        "reason": "Produced by an earlier run in this same test: H3-N2. Conflicts with the logical prior below.",
+        "source_run": "H3-N2",
+        "next_job_hurt": false
+      },
+      {
+        "kind": "logical",
+        "reason": "Produced by an earlier run in this same test: H3-L2, a stricter rule that changed which tasks count as solved. Conflicts with the noise prior above.",
+        "source_run": "H3-L2",
+        "next_job_hurt": true
+      }
+    ]
+  },
+  {
+    "id": "H3-A3",
+    "old_text": "Spotify songs and Venmo payments are both listed in the same way. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Spotify songs now list the artist first, then the title. Venmo payments are unchanged. A task is solved when the final answer equals the expected value exactly.",
+    "outcomes": [
+      {
+        "task": "who sang the last song I played",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      },
+      {
+        "task": "who sent me the last Venmo payment",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": false
+      }
+    ],
+    "priors": []
+  },
+  {
+    "id": "H3-A4",
+    "old_text": "Passwords are shown as dots. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Passwords may now be shown as stars instead of dots. A task is solved when the final answer equals the expected value exactly.",
+    "outcomes": [
+      {
+        "task": "how many characters is my password (a count, not the password itself)",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      },
+      {
+        "task": "when did I last change my password (a date, not the password)",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": [
+      {
+        "kind": "logical",
+        "reason": "Produced by an earlier run in this same test: H3-L1, a password rule that moved an outcome. Mixed evidence: the two touched examples here are unchanged, but a prior similar password change moved an outcome.",
+        "source_run": "H3-L1",
+        "next_job_hurt": true
+      }
+    ]
+  }
+]
