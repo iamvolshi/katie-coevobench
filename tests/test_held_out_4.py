@@ -75,17 +75,16 @@ class Sealed(unittest.TestCase):
 
 
 class Model(unittest.TestCase):
-    def test_judge_is_still_k3(self):
-        self.assertEqual(judge.MODEL, "moonshotai/kimi-k3.1-pro")
-        self.assertEqual(SEAL["judge_model"], judge.MODEL)
+    def test_judge_was_k3(self):
+        self.assertEqual(SEAL["judge_model"], "moonshotai/kimi-k3.1-pro")
         mc = json.loads((ROOT / "heldout3" / "model_check.json").read_text(encoding="utf-8"))
-        self.assertIn(judge.MODEL, mc["catalog_ids"])
+        self.assertIn(SEAL["judge_model"], mc["catalog_ids"])
         self.assertIn("timeout=900", inspect.getsource(heldout4.main))
         if RES.exists():
-            self.assertEqual(json.loads(RES.read_text(encoding="utf-8"))["model"], judge.MODEL)
+            self.assertEqual(json.loads(RES.read_text(encoding="utf-8"))["model"], SEAL["judge_model"])
 
     def test_sealed_code_is_the_code_that_ran(self):
-        self.assertEqual(heldout4.frozen_hashes(), SEAL["frozen"])
+        self.assertEqual(heldout4.frozen_hashes("bb1387a"), SEAL["frozen"])   # the code as it stood at the seal
         src = inspect.getsource(judge.NimJudge)
         self.assertIn('"temperature": 0', src)
         self.assertIn('"max_tokens": 8192', src)
@@ -95,7 +94,8 @@ class Model(unittest.TestCase):
         if code:
             self.skipTest("7a65c44 not available")
         old_p = old.replace("\r\n", "\n").split('\nPROMPT = """', 1)[1].split('"""', 1)[0].splitlines()
-        new_p = judge.PROMPT.splitlines()
+        j4 = git("show", "bb1387a:katie_coevobench/judge.py")[1].replace("\r\n", "\n")
+        new_p = j4.split('\nPROMPT = """', 1)[1].split('"""', 1)[0].splitlines()
         self.assertEqual(len(new_p), len(old_p) + 1)
         added = [l for l in new_p if l not in old_p]
         self.assertEqual(added, ["5. If the coverage is partial, one touched example and one untouched example, say partial, not noise."])

@@ -1,0 +1,17 @@
+{
+ "note": "sha256 of LF-normalized files, sealed before any held-out-5 judge call, after the model swap to Bolt. Set written by Turdy (commit f2d6b7e).",
+ "turdy_commit": "f2d6b7e",
+ "sealed": {
+  "heldout5/changes.json": "ff30ce8b0825430b846f2f9587f2df7a4a148fb4ec588e3b40ecbc6244c36a88",
+  "heldout5/ground_truth.json": "7e775d9756182a9b602544637c22a225db0f8d1d1edfb1b3393700e0611a479e",
+  "heldout5/README.md": "b1af009840269d3b9d8943d378b4448200b9771921822f7dead20480672317be",
+  "heldout5/model_check.json": "7893de8bb64603c268cb0a4e3d05fa1dc02fabf2cd89cc2dc55f5f6b4e27436c"
+ },
+ "judge_model": "nvidia/nemotron-3.5-bolt-e4b",
+ "frozen": {
+  "PROMPT": "76d16ce7487f6315ac5263c91519a41af550409b9c0d49f37f2196b2ff380761",
+  "backstop": "1bf55dbf5f064ee17d737147987f999aa0d2a7d74015f96a3f78a4bd5cccd7a9",
+  "judge.py without MODEL line": "7f550267e23eab3f8e10ae6947d82ee523377036e5083d4975b1656aefe0fa24",
+  "erie.py": "9df36c07ba515c21ee1470e007ef988e9ac8ec87645e9e0f9f4815b8e174245d"
+ }
+}

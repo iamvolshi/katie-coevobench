@@ -75,20 +75,22 @@ class Sealed(unittest.TestCase):
 
 
 class Model(unittest.TestCase):
+    # Set 3 ran on the code at its seal 7a65c44. Later OCMEs swap the judge, so these read that commit, not today's code.
     def test_id_matches_the_live_catalog_record(self):
         mc = json.loads((H / "model_check.json").read_text(encoding="utf-8"))
-        self.assertEqual(judge.MODEL, mc["chosen"])
-        self.assertEqual(SEAL["judge_model"], judge.MODEL)
-        self.assertIn(judge.MODEL, mc["catalog_ids"])
+        self.assertEqual(SEAL["judge_model"], mc["chosen"])
+        self.assertIn(mc["chosen"], mc["catalog_ids"])
         self.assertTrue(mc["chosen_in_catalog"])
-        self.assertEqual(judge.MODEL, "moonshotai/kimi-k3.1-pro")
+        self.assertEqual(mc["chosen"], "moonshotai/kimi-k3.1-pro")
 
-    def test_bolt_and_ultra_are_no_longer_the_judge(self):
-        for old in ("bolt", "ultra", "nano"):
-            self.assertNotIn(old, judge.MODEL)
-        self.assertEqual(inspect.signature(judge.NimJudge.__init__).parameters["model"].default, judge.MODEL)
+    def test_bolt_and_ultra_were_not_the_judge_at_the_seal(self):
+        code, j = git("show", "7a65c44:katie_coevobench/judge.py")
+        if code:
+            self.skipTest("7a65c44 not available")
+        line = next(l for l in j.splitlines() if l.startswith("MODEL = "))
+        self.assertTrue(line.startswith('MODEL = "moonshotai/kimi-k3.1-pro"'), line)
         if RES.exists():
-            self.assertEqual(json.loads(RES.read_text(encoding="utf-8"))["model"], judge.MODEL)
+            self.assertEqual(json.loads(RES.read_text(encoding="utf-8"))["model"], SEAL["judge_model"])
 
     def test_only_the_model_line_changed_and_no_partial_coverage_rule(self):
         self.assertEqual(heldout3.frozen_hashes("7a65c44"), SEAL["frozen"])   # the code as it stood at the seal
