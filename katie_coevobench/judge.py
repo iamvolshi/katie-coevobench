@@ -8,7 +8,7 @@ import json, os, re, urllib.request, urllib.error
 from dataclasses import dataclass
 
 KINDS = ("noise", "ambiguous", "logical")
-MODEL = "nvidia/nemotron-3-ultra-550b-a55b"
+MODEL = "nvidia/nemotron-3.5-bolt-e4b"   # OCME-006: was nemotron-3-ultra-550b-a55b; id copied from the live /v1/models list
 DEFAULT_BASE_URL = "https://integrate.api.nvidia.com/v1"
 
 PROMPT_V1 = """You judge a change to an AI agent's harness (its prompt, tools and scoring rules).

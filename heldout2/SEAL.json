@@ -1,0 +1,17 @@
+{
+ "note": "sha256 of LF-normalized files, sealed before any held-out-2 judge call. Set written by Turdy (commit 093c31c).",
+ "turdy_commit": "093c31c",
+ "sealed": {
+  "heldout2/changes.json": "83dc8eb079d6c46b09c4ea8885d2027723fa0636efeee2a0075eadc95cbf86cb",
+  "heldout2/ground_truth.json": "0b140e500c98ae2ccf316e41b9a4a243583767306d58d9d840a3a19c8e5d4f42",
+  "heldout2/README.md": "ea47f77d09347b21917ac19a810aaff849db832bb3893f9103f6bc27825ca2f9",
+  "heldout2/model_check.json": "fc2ef6a49a6e3421789aa59d55b6f21ec3115bb73f1554c45b6a92492a0ace79"
+ },
+ "judge_model": "nvidia/nemotron-3.5-bolt-e4b",
+ "frozen": {
+  "PROMPT": "9f744f0114bad529cdbcad8d9afdf20e0fb5e22abc8855072ed187675e7f2a8b",
+  "backstop": "4f509888952c1b723f3de07d4b79138e1a44f27d8488a6a98c67e50712a1f042",
+  "judge.py without MODEL line": "323b517cda83f890a7728eda147423cb9646f8580acc199a53fc1ce219573f79",
+  "erie.py": "9df36c07ba515c21ee1470e007ef988e9ac8ec87645e9e0f9f4815b8e174245d"
+ }
+}
