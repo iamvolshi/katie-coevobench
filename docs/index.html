@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KATIE on CoEvoBench — tiny proof of concept</title>
+<style>
+body { font-family: system-ui, sans-serif; max-width: 860px; margin: 40px auto; padding: 0 20px; line-height: 1.5; color: #111; }
+h1 { font-size: 28px; }
+h2 { font-size: 20px; margin-top: 36px; }
+button { padding: 8px 14px; margin: 4px 4px 4px 0; cursor: pointer; }
+button.on { background: #111; color: #fff; }
+table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+th:first-child, td:first-child { text-align: left; }
+.note { background: #f6f6f6; padding: 12px; border-left: 4px solid #111; }
+.small { color: #555; font-size: 14px; }
+</style>
+</head>
+<body>
+<h1>KATIE on CoEvoBench</h1>
+<p>A tiny proof of concept, not a robust demo. It shows the break, then the fix.</p>
+<p>Paper: <a href="https://arxiv.org/abs/2611.27116">CoEvoBench, arXiv:2611.27116</a>. Code and full report: <a href="https://github.com/iamvolshi/katie-coevobench">iamvolshi/katie-coevobench</a>.</p>
+
+<div class="note">
+<p><strong>Read this first.</strong> This is a simulation of the Figure 5 case, not a real AppWorld run and not real training. No model was trained, no AppWorld tasks were run. The numbers come from constants typed from the paper, plus 5, minus 4, plus 4, and Base 14 is an assumption, because the paper case gives only deltas. What this proves is that the record and the gate work as designed. It does not prove KATIE helps a real researcher. A real run still needs Docker, 4 GPUs, and a teacher model budget.</p>
+</div>
+
+<h2>Pick a change kind</h2>
+<p>
+<button data-script="noise" class="on">Noise</button>
+<button data-script="logical">Logical</button>
+<button data-script="ambiguous_matters">Ambiguous, truly matters</button>
+<button data-script="ambiguous_harmless">Ambiguous, harmless</button>
+</p>
+<p id="script-desc"></p>
+
+<h2>Selection set, 51 tasks, Base 14</h2>
+<table>
+<tr><th>Stage</th><th>Control</th><th>KATIE</th></tr>
+<tr><td>S0 Base, old harness</td><td id="c0"></td><td id="k0"></td></tr>
+<tr><td>S1 Trained, old harness</td><td id="c1"></td><td id="k1"></td></tr>
+<tr><td>S2 Harness revised, same weights</td><td id="c2"></td><td id="k2"></td></tr>
+<tr><td>S3 First retrain attempt</td><td id="c3"></td><td id="k3"></td></tr>
+<tr><td>S4 Retrain on fresh data</td><td id="c4"></td><td id="k4"></td></tr>
+</table>
+<p id="script-result"></p>
+
+<h2>Live judge</h2>
+<p>Nemotron 3 Ultra, NVIDIA free tier. Run once, Nov 24. 2 out of 3 right.</p>
+<ul>
+<li>Noise: expected noise, got noise. Right.</li>
+<li>Logical: expected logical, got logical. Right.</li>
+<li>Ambiguous that matters: expected ambiguous, got logical. Wrong. It called it logical instead of holding.</li>
+</ul>
+<p>In the full live run, ambiguous harmless also got called logical, so KATIE blocked it, lost the plus 5 in the window, and ended equal at 19 after the probe.</p>
+
+<h2>Mix rules, logical script, Control score at first retrain</h2>
+<table>
+<tr><th>Rule</th><th>Control S3</th><th>KATIE conclusion</th></tr>
+<tr><td>Linear</td><td>13</td><td>Holds</td></tr>
+<tr><td>Stale wins</td><td>10</td><td>Holds</td></tr>
+<tr><td>Majority wins</td><td>10</td><td>Holds</td></tr>
+</table>
+<p class="small">The rule changes Control's S3. The KATIE conclusion holds under all three.</p>
+
+<h2>What this is, in plain words</h2>
+<p>CoEvoBench shows a researcher can make a strong first improvement, but cannot turn feedback from an improved system into the next one. Every harness revision reopens the training decision. KATIE is a record around the researcher loop. Every trajectory, harness change, and training job gets its own KID. Training data is gated by harness KID, so stale data is refused, stale weights are not served, and a bad job is skipped.</p>
+<p class="small">Repo: https://github.com/iamvolshi/katie-coevobench — branches feat/appworld-harness-flip and feat/change-kinds. Tests: 33 pass on feat/change-kinds. Paper link above is the source for the constants.</p>
+
+<script>
+var DATA = {
+  noise: {desc: "Noise: wording and order only. Correct answers do not move. KATIE and Control are identical.", c: [14,19,19,19,19], k: [14,19,19,19,19], result: "Identical to Control. KATIE adds nothing but the record. Jobs: Control 2, KATIE 2. Final test 19."},
+  logical: {desc: "Logical: the change is real and changes what counts as solved. KATIE blocks stale and forces fresh data.", c: [14,19,10,13,18], k: [14,19,14,14,18], result: "KATIE avoids the minus 4 dip and skips 1 bad job. Jobs: Control 3 with 1 hurt, KATIE 2 with 0 hurt. Final test both 18."},
+  ambiguous_matters: {desc: "Ambiguous, truly matters: the change might matter, and it does. KATIE holds, then the probe resolves it as logical.", c: [14,19,10,13,18], k: [14,19,14,14,18], result: "KATIE avoids the minus 4 dip and skips 1 bad job. Jobs: Control 3 with 1 hurt, KATIE 2 with 0 hurt. Final test both 18."},
+  ambiguous_harmless: {desc: "Ambiguous, harmless: the change might matter, and it does not. This is a loss for KATIE in the window.", c: [14,19,19,19,19], k: [14,19,14,14,19], result: "KATIE holds at 14 while Control stays 19, skips a good job, and ends equal at 19 after the probe. That is the price of not guessing."}
+};
+function show(name) {
+  var d = DATA[name];
+  document.getElementById('script-desc').textContent = d.desc;
+  for (var i = 0; i < 5; i++) {
+    document.getElementById('c' + i).textContent = d.c[i];
+    document.getElementById('k' + i).textContent = d.k[i];
+  }
+  document.getElementById('script-result').textContent = d.result;
+  var btns = document.querySelectorAll('button');
+  btns.forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-script') === name); });
+}
+document.querySelectorAll('button').forEach(function(b){
+  b.addEventListener('click', function(){ show(b.getAttribute('data-script')); });
+});
+show('noise');
+</script>
+</body>
+</html>
