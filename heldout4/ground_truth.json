@@ -13,7 +13,7 @@
     "H4-A3",
     "H4-A4"
   ],
-  "rule": "logical = at least one example task's answer changed. noise = at least one touched example, all touched examples unchanged, and every example in the packet is touched, no prior change that moved an outcome. ambiguous = no example shows a change and no touched example proves nothing changed, or the evidence is mixed, or the coverage is partial: at least one touched example unchanged and at least one untouched example in the packet.",
+  "rule": "logical = at least one example task's answer changed. noise = at least one touched example, all touched examples unchanged, and every example in the packet is touched, no prior change that moved an outcome. ambiguous = no example shows a change and no touched example proves nothing changed, or the evidence is mixed. partial = the coverage is partial: at least one touched example unchanged and at least one untouched example in the packet. Partial is a valid kind, alongside noise, logical, and ambiguous. A partial judgment holds, it does not train.",
   "messy": [
     "H4-A1",
     "H4-A2",
@@ -68,13 +68,13 @@
       "partial": false
     },
     "H4-A3": {
-      "kind": "ambiguous",
-      "why": "Only calendar changes, email does not. The calendar example is touched and unchanged, the email example is untouched. Partial coverage, proves nothing about calendar locations.",
+      "kind": "partial",
+      "why": "Only calendar changes, email does not. The calendar example is touched and unchanged, the email example is untouched. Partial coverage, proves nothing about calendar locations. Partial is a valid category, not just ambiguous.",
       "partial": true
     },
     "H4-A4": {
-      "kind": "ambiguous",
-      "why": "Only notes change, files do not. The note example is touched and unchanged, the file example is untouched. Partial coverage, and a prior similar strict rule moved an outcome.",
+      "kind": "partial",
+      "why": "Only notes change, files do not. The note example is touched and unchanged, the file example is untouched. Partial coverage, and a prior similar strict rule moved an outcome. Partial is a valid category, not just ambiguous.",
       "partial": true
     }
   }
