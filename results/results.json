@@ -1,0 +1,497 @@
+[
+ {
+  "arm": "control",
+  "seed": 1,
+  "stages": [
+   {
+    "stage": "S0 base, old harness",
+    "harness": "H0",
+    "weights": "base",
+    "selection_solved": 14,
+    "note": "Base weights"
+   },
+   {
+    "stage": "S1 trained, old harness",
+    "harness": "H0",
+    "weights": "w1",
+    "selection_solved": 19,
+    "note": "job 1"
+   },
+   {
+    "stage": "S2 harness revised, same weights",
+    "harness": "H1",
+    "weights": "w1",
+    "selection_solved": 10,
+    "note": "w1 served as is"
+   },
+   {
+    "stage": "S3 retrain attempt 1",
+    "harness": "H1",
+    "weights": "w2",
+    "selection_solved": 13,
+    "note": "trained on whole history"
+   },
+   {
+    "stage": "S4 retrain on fresh data",
+    "harness": "H1",
+    "weights": "w3",
+    "selection_solved": 18,
+    "note": "post-revision trajectories only"
+   }
+  ],
+  "jobs": [
+   {
+    "job": 1,
+    "weights": "w1",
+    "trajectories": 40,
+    "launched": true,
+    "hurt": false,
+    "true_stale_in_data": 0,
+    "harness_kids_used": "untagged"
+   },
+   {
+    "job": 2,
+    "weights": "w2",
+    "trajectories": 60,
+    "launched": true,
+    "hurt": true,
+    "true_stale_in_data": 40,
+    "harness_kids_used": "untagged"
+   },
+   {
+    "job": 3,
+    "weights": "w3",
+    "trajectories": 40,
+    "launched": true,
+    "hurt": false,
+    "true_stale_in_data": 0,
+    "harness_kids_used": "untagged"
+   }
+  ],
+  "jobs_launched": 3,
+  "jobs_hurt": 1,
+  "jobs_skipped": 0,
+  "base_selection": 14,
+  "dip_at_revision": -4,
+  "final_candidate": "w3",
+  "final_test_solved": 18,
+  "base_test_solved": 14,
+  "trajectories_used": 140,
+  "test_reads": 2,
+  "record_entries": 0
+ },
+ {
+  "arm": "control",
+  "seed": 2,
+  "stages": [
+   {
+    "stage": "S0 base, old harness",
+    "harness": "H0",
+    "weights": "base",
+    "selection_solved": 14,
+    "note": "Base weights"
+   },
+   {
+    "stage": "S1 trained, old harness",
+    "harness": "H0",
+    "weights": "w1",
+    "selection_solved": 19,
+    "note": "job 1"
+   },
+   {
+    "stage": "S2 harness revised, same weights",
+    "harness": "H1",
+    "weights": "w1",
+    "selection_solved": 10,
+    "note": "w1 served as is"
+   },
+   {
+    "stage": "S3 retrain attempt 1",
+    "harness": "H1",
+    "weights": "w2",
+    "selection_solved": 13,
+    "note": "trained on whole history"
+   },
+   {
+    "stage": "S4 retrain on fresh data",
+    "harness": "H1",
+    "weights": "w3",
+    "selection_solved": 18,
+    "note": "post-revision trajectories only"
+   }
+  ],
+  "jobs": [
+   {
+    "job": 1,
+    "weights": "w1",
+    "trajectories": 40,
+    "launched": true,
+    "hurt": false,
+    "true_stale_in_data": 0,
+    "harness_kids_used": "untagged"
+   },
+   {
+    "job": 2,
+    "weights": "w2",
+    "trajectories": 60,
+    "launched": true,
+    "hurt": true,
+    "true_stale_in_data": 40,
+    "harness_kids_used": "untagged"
+   },
+   {
+    "job": 3,
+    "weights": "w3",
+    "trajectories": 40,
+    "launched": true,
+    "hurt": false,
+    "true_stale_in_data": 0,
+    "harness_kids_used": "untagged"
+   }
+  ],
+  "jobs_launched": 3,
+  "jobs_hurt": 1,
+  "jobs_skipped": 0,
+  "base_selection": 14,
+  "dip_at_revision": -4,
+  "final_candidate": "w3",
+  "final_test_solved": 18,
+  "base_test_solved": 14,
+  "trajectories_used": 140,
+  "test_reads": 2,
+  "record_entries": 0
+ },
+ {
+  "arm": "control",
+  "seed": 3,
+  "stages": [
+   {
+    "stage": "S0 base, old harness",
+    "harness": "H0",
+    "weights": "base",
+    "selection_solved": 14,
+    "note": "Base weights"
+   },
+   {
+    "stage": "S1 trained, old harness",
+    "harness": "H0",
+    "weights": "w1",
+    "selection_solved": 19,
+    "note": "job 1"
+   },
+   {
+    "stage": "S2 harness revised, same weights",
+    "harness": "H1",
+    "weights": "w1",
+    "selection_solved": 10,
+    "note": "w1 served as is"
+   },
+   {
+    "stage": "S3 retrain attempt 1",
+    "harness": "H1",
+    "weights": "w2",
+    "selection_solved": 13,
+    "note": "trained on whole history"
+   },
+   {
+    "stage": "S4 retrain on fresh data",
+    "harness": "H1",
+    "weights": "w3",
+    "selection_solved": 18,
+    "note": "post-revision trajectories only"
+   }
+  ],
+  "jobs": [
+   {
+    "job": 1,
+    "weights": "w1",
+    "trajectories": 40,
+    "launched": true,
+    "hurt": false,
+    "true_stale_in_data": 0,
+    "harness_kids_used": "untagged"
+   },
+   {
+    "job": 2,
+    "weights": "w2",
+    "trajectories": 60,
+    "launched": true,
+    "hurt": true,
+    "true_stale_in_data": 40,
+    "harness_kids_used": "untagged"
+   },
+   {
+    "job": 3,
+    "weights": "w3",
+    "trajectories": 40,
+    "launched": true,
+    "hurt": false,
+    "true_stale_in_data": 0,
+    "harness_kids_used": "untagged"
+   }
+  ],
+  "jobs_launched": 3,
+  "jobs_hurt": 1,
+  "jobs_skipped": 0,
+  "base_selection": 14,
+  "dip_at_revision": -4,
+  "final_candidate": "w3",
+  "final_test_solved": 18,
+  "base_test_solved": 14,
+  "trajectories_used": 140,
+  "test_reads": 2,
+  "record_entries": 0
+ },
+ {
+  "arm": "katie",
+  "seed": 1,
+  "stages": [
+   {
+    "stage": "S0 base, old harness",
+    "harness": "H0",
+    "weights": "base",
+    "selection_solved": 14,
+    "note": "Base weights"
+   },
+   {
+    "stage": "S1 trained, old harness",
+    "harness": "H0",
+    "weights": "w1",
+    "selection_solved": 19,
+    "note": "job 1"
+   },
+   {
+    "stage": "S2 harness revised, same weights",
+    "harness": "H1",
+    "weights": "base",
+    "selection_solved": 14,
+    "note": "control serves w1 as is; KATIE refuses stale weights"
+   },
+   {
+    "stage": "S3 retrain attempt 1",
+    "harness": "H1",
+    "weights": "base",
+    "selection_solved": 14,
+    "note": "refused (T1-65), job skipped"
+   },
+   {
+    "stage": "S4 retrain on fresh data",
+    "harness": "H1",
+    "weights": "w3",
+    "selection_solved": 18,
+    "note": "gated by harness KID"
+   }
+  ],
+  "jobs": [
+   {
+    "job": 1,
+    "weights": "w1",
+    "trajectories": 40,
+    "launched": true,
+    "hurt": false,
+    "true_stale_in_data": 0,
+    "harness_kids_used": [
+     "T1-1"
+    ]
+   },
+   {
+    "job": 2,
+    "weights": "w2",
+    "trajectories": 20,
+    "launched": false,
+    "hurt": false,
+    "refusal_kid": "T1-65"
+   },
+   {
+    "job": 3,
+    "weights": "w3",
+    "trajectories": 40,
+    "launched": true,
+    "hurt": false,
+    "true_stale_in_data": 0,
+    "harness_kids_used": [
+     "T1-43"
+    ]
+   }
+  ],
+  "jobs_launched": 2,
+  "jobs_hurt": 0,
+  "jobs_skipped": 1,
+  "base_selection": 14,
+  "dip_at_revision": 0,
+  "final_candidate": "w3",
+  "final_test_solved": 18,
+  "base_test_solved": 14,
+  "trajectories_used": 80,
+  "test_reads": 2,
+  "record_entries": 86
+ },
+ {
+  "arm": "katie",
+  "seed": 2,
+  "stages": [
+   {
+    "stage": "S0 base, old harness",
+    "harness": "H0",
+    "weights": "base",
+    "selection_solved": 14,
+    "note": "Base weights"
+   },
+   {
+    "stage": "S1 trained, old harness",
+    "harness": "H0",
+    "weights": "w1",
+    "selection_solved": 19,
+    "note": "job 1"
+   },
+   {
+    "stage": "S2 harness revised, same weights",
+    "harness": "H1",
+    "weights": "base",
+    "selection_solved": 14,
+    "note": "control serves w1 as is; KATIE refuses stale weights"
+   },
+   {
+    "stage": "S3 retrain attempt 1",
+    "harness": "H1",
+    "weights": "base",
+    "selection_solved": 14,
+    "note": "refused (T1-65), job skipped"
+   },
+   {
+    "stage": "S4 retrain on fresh data",
+    "harness": "H1",
+    "weights": "w3",
+    "selection_solved": 18,
+    "note": "gated by harness KID"
+   }
+  ],
+  "jobs": [
+   {
+    "job": 1,
+    "weights": "w1",
+    "trajectories": 40,
+    "launched": true,
+    "hurt": false,
+    "true_stale_in_data": 0,
+    "harness_kids_used": [
+     "T1-1"
+    ]
+   },
+   {
+    "job": 2,
+    "weights": "w2",
+    "trajectories": 20,
+    "launched": false,
+    "hurt": false,
+    "refusal_kid": "T1-65"
+   },
+   {
+    "job": 3,
+    "weights": "w3",
+    "trajectories": 40,
+    "launched": true,
+    "hurt": false,
+    "true_stale_in_data": 0,
+    "harness_kids_used": [
+     "T1-43"
+    ]
+   }
+  ],
+  "jobs_launched": 2,
+  "jobs_hurt": 0,
+  "jobs_skipped": 1,
+  "base_selection": 14,
+  "dip_at_revision": 0,
+  "final_candidate": "w3",
+  "final_test_solved": 18,
+  "base_test_solved": 14,
+  "trajectories_used": 80,
+  "test_reads": 2,
+  "record_entries": 86
+ },
+ {
+  "arm": "katie",
+  "seed": 3,
+  "stages": [
+   {
+    "stage": "S0 base, old harness",
+    "harness": "H0",
+    "weights": "base",
+    "selection_solved": 14,
+    "note": "Base weights"
+   },
+   {
+    "stage": "S1 trained, old harness",
+    "harness": "H0",
+    "weights": "w1",
+    "selection_solved": 19,
+    "note": "job 1"
+   },
+   {
+    "stage": "S2 harness revised, same weights",
+    "harness": "H1",
+    "weights": "base",
+    "selection_solved": 14,
+    "note": "control serves w1 as is; KATIE refuses stale weights"
+   },
+   {
+    "stage": "S3 retrain attempt 1",
+    "harness": "H1",
+    "weights": "base",
+    "selection_solved": 14,
+    "note": "refused (T1-65), job skipped"
+   },
+   {
+    "stage": "S4 retrain on fresh data",
+    "harness": "H1",
+    "weights": "w3",
+    "selection_solved": 18,
+    "note": "gated by harness KID"
+   }
+  ],
+  "jobs": [
+   {
+    "job": 1,
+    "weights": "w1",
+    "trajectories": 40,
+    "launched": true,
+    "hurt": false,
+    "true_stale_in_data": 0,
+    "harness_kids_used": [
+     "T1-1"
+    ]
+   },
+   {
+    "job": 2,
+    "weights": "w2",
+    "trajectories": 20,
+    "launched": false,
+    "hurt": false,
+    "refusal_kid": "T1-65"
+   },
+   {
+    "job": 3,
+    "weights": "w3",
+    "trajectories": 40,
+    "launched": true,
+    "hurt": false,
+    "true_stale_in_data": 0,
+    "harness_kids_used": [
+     "T1-43"
+    ]
+   }
+  ],
+  "jobs_launched": 2,
+  "jobs_hurt": 0,
+  "jobs_skipped": 1,
+  "base_selection": 14,
+  "dip_at_revision": 0,
+  "final_candidate": "w3",
+  "final_test_solved": 18,
+  "base_test_solved": 14,
+  "trajectories_used": 80,
+  "test_reads": 2,
+  "record_entries": 86
+ }
+]
