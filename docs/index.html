@@ -47,13 +47,16 @@ th:first-child, td:first-child { text-align: left; }
 <p id="script-result"></p>
 
 <h2>Live judge</h2>
-<p>Nemotron 3 Ultra, NVIDIA free tier. Run once, Nov 24. 2 out of 3 right.</p>
+<p>Nemotron 3 Ultra, NVIDIA free tier. With the ERIE evidence prompt, Nov 24, it got 12 out of 12 right, 3 calls on each of the 4 scripts.</p>
 <ul>
-<li>Noise: expected noise, got noise. Right.</li>
-<li>Logical: expected logical, got logical. Right.</li>
-<li>Ambiguous that matters: expected ambiguous, got logical. Wrong. It called it logical instead of holding.</li>
+<li>Noise: expected noise, got noise, 3 times.</li>
+<li>Logical: expected logical, got logical, 3 times.</li>
+<li>Ambiguous that matters: expected ambiguous, got ambiguous, 3 times.</li>
+<li>Ambiguous, harmless: expected ambiguous, got ambiguous, 3 times.</li>
 </ul>
-<p>In the full live run, ambiguous harmless also got called logical, so KATIE blocked it, lost the plus 5 in the window, and ended equal at 19 after the probe.</p>
+<p>The full live pipeline got 18 out of 18 kinds right, and the stage numbers match the stub run. The UTC dates change now comes back ambiguous every time, citing the untouched examples as proving nothing.</p>
+<p>Honest limit: the prompt was tuned on these same four scripts, so 12 out of 12 is not a held-out score. The held-out test, with changes the judge has never seen, is OCME-004-evo, and it is not built yet.</p>
+<p>Before the ERIE fix, the old prompt got 2 out of 3 right and called the ambiguous change logical instead of holding. That miss is what the ERIE evidence packet fixed.</p>
 
 <h2>Mix rules, logical script, Control score at first retrain</h2>
 <table>
