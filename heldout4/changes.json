@@ -1,0 +1,230 @@
+[
+  {
+    "id": "H4-N1",
+    "old_text": "You are an AppWorld assistant. Notes are shown in the order they were created. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "You are an AppWorld assistant. Notes are shown in alphabetical order. The answer checker ignores note order. A task is solved when the final answer equals the expected value exactly, ignoring order.",
+    "outcomes": [
+      {
+        "task": "list my notes from last week",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      },
+      {
+        "task": "find the note about the dentist",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": []
+  },
+  {
+    "id": "H4-N2",
+    "old_text": "Tool output shows dates as 2026-03-15. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Tool output shows dates as March 15, 2026. The answer checker reads both date formats as the same date. A task is solved when the final answer equals the expected value exactly after that reading.",
+    "outcomes": [
+      {
+        "task": "when is my dentist appointment",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      },
+      {
+        "task": "when did I last pay rent",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": []
+  },
+  {
+    "id": "H4-L1",
+    "old_text": "A task is solved when the final answer equals the expected value exactly, ignoring extra spaces.",
+    "new_text": "A task is solved only when the final answer equals the expected value exactly, with no extra spaces allowed.",
+    "outcomes": [
+      {
+        "task": "name of my most played artist (expected Adele, agent says Adele with a trailing space)",
+        "old_answer": "solved",
+        "new_answer": "NOT solved",
+        "touched": true
+      },
+      {
+        "task": "title of my last note (no extra spaces)",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": []
+  },
+  {
+    "id": "H4-L2",
+    "old_text": "When a task asks for a total, the agent may round to the nearest dollar. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "When a task asks for a total, the agent must now give the exact amount, no rounding. A task is solved only when the final answer equals the exact amount.",
+    "outcomes": [
+      {
+        "task": "total I spent on coffee (expected 12.50, agent says 13)",
+        "old_answer": "solved",
+        "new_answer": "NOT solved",
+        "touched": true
+      },
+      {
+        "task": "total I spent on groceries (expected 80, agent says 80)",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": []
+  },
+  {
+    "id": "H4-N3",
+    "old_text": "Tool output shows times in 12-hour format. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Tool output shows times in 24-hour format. The answer checker reads both formats as the same time. A task is solved when the final answer equals the expected value exactly after that reading.",
+    "outcomes": [
+      {
+        "task": "what time is my meeting on Monday",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      },
+      {
+        "task": "what time does my flight leave",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": [
+      {
+        "kind": "noise",
+        "reason": "Produced by an earlier run in this same test: H4-N1, an order change that moved no answer. Do not seed this by hand; take it from the H4-N1 run.",
+        "source_run": "H4-N1",
+        "next_job_hurt": false
+      }
+    ]
+  },
+  {
+    "id": "H4-L3",
+    "old_text": "A contact may be found by first name only. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "This is only a wording cleanup. A contact must now be found by full name, first and last, or it does not count. A task is solved only when the full name is used.",
+    "outcomes": [
+      {
+        "task": "phone number for Alex (first name only, expected both Alex Lee and Alex Kim)",
+        "old_answer": "solved",
+        "new_answer": "NOT solved",
+        "touched": true
+      },
+      {
+        "task": "phone number for Alex Lee (full name)",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      }
+    ],
+    "priors": [
+      {
+        "kind": "noise",
+        "reason": "Produced by an earlier run in this same test: H4-N2, a date display change that moved no answer. This prior is misleading here; the evidence still shows a changed answer.",
+        "source_run": "H4-N2",
+        "next_job_hurt": false
+      }
+    ]
+  },
+  {
+    "id": "H4-A1",
+    "old_text": "All amounts are in dollars. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Amounts may now be in euros instead of dollars. A task is solved when the final answer equals the expected value exactly.",
+    "outcomes": [
+      {
+        "task": "how many items did I order (a count, not an amount)",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": false
+      }
+    ],
+    "priors": []
+  },
+  {
+    "id": "H4-A2",
+    "old_text": "Tasks are shown in English. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Tasks may now be shown in French instead of English. A task is solved when the final answer equals the expected value exactly.",
+    "outcomes": [
+      {
+        "task": "how many meetings do I have today (a count, not text)",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": false
+      },
+      {
+        "task": "how many emails did I get today (a count, not text)",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": false
+      }
+    ],
+    "priors": [
+      {
+        "kind": "noise",
+        "reason": "Produced by an earlier run in this same test: H4-N2. Conflicts with the logical prior below.",
+        "source_run": "H4-N2",
+        "next_job_hurt": false
+      },
+      {
+        "kind": "logical",
+        "reason": "Produced by an earlier run in this same test: H4-L2, a stricter total rule that changed which tasks count as solved. Conflicts with the noise prior above.",
+        "source_run": "H4-L2",
+        "next_job_hurt": true
+      }
+    ]
+  },
+  {
+    "id": "H4-A3",
+    "old_text": "Calendar events and email messages are both listed in the same way. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Calendar events now list the location first, then the time. Email messages are unchanged. A task is solved when the final answer equals the expected value exactly.",
+    "outcomes": [
+      {
+        "task": "where is my meeting on Monday",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      },
+      {
+        "task": "who sent me the last email",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": false
+      }
+    ],
+    "priors": []
+  },
+  {
+    "id": "H4-A4",
+    "old_text": "Notes and files are both listed in the same way. A task is solved when the final answer equals the expected value exactly.",
+    "new_text": "Notes now list the title first, then the body. Files are unchanged. A task is solved when the final answer equals the expected value exactly.",
+    "outcomes": [
+      {
+        "task": "what is the title of my last note",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": true
+      },
+      {
+        "task": "what is the name of my last file",
+        "old_answer": "solved",
+        "new_answer": "solved",
+        "touched": false
+      }
+    ],
+    "priors": [
+      {
+        "kind": "logical",
+        "reason": "Produced by an earlier run in this same test: H4-L1, a stricter exactness rule that moved an outcome. Mixed evidence: the touched example here is unchanged, but a prior similar strict rule moved an outcome.",
+        "source_run": "H4-L1",
+        "next_job_hurt": true
+      }
+    ]
+  }
+]
