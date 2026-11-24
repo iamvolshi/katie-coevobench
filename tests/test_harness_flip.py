@@ -77,7 +77,7 @@ class RecordRules(unittest.TestCase):
     def test_run_mints_kid_for_every_change(self):
         with tempfile.TemporaryDirectory() as d:
             r = run_arm("katie", 1, Path(d))
-            lines = [json.loads(l) for l in (Path(d) / "record-katie-1.jsonl").read_text().splitlines()]
+            lines = [json.loads(l) for l in (Path(d) / "record-katie-logical-linear-1.jsonl").read_text().splitlines()]
             self.assertEqual(len(lines), r["record_entries"])
             kinds = {l["kind"] for l in lines}
             self.assertTrue({"harness", "trajectory", "training_job", "refusal"} <= kinds)

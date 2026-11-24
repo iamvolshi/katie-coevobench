@@ -13,6 +13,9 @@ GAIN = {"H0": 5, "H1": 4}  # Fig 5: first training +5 (old harness); retrain aft
 STALE_PENALTY = -4         # Fig 5: same weights after the harness revision fall 4 behind Base
 
 
+MIX_RULES = ("linear", "stale_wins", "majority")
+
+
 class SplitViolation(Exception):
     pass
 
@@ -32,7 +35,10 @@ class Weights:
 
 
 class World:
-    def __init__(self, seed: int):
+    def __init__(self, seed: int, mix: str = "linear"):
+        if mix not in MIX_RULES:
+            raise ValueError(f"mix rule must be one of {MIX_RULES}")
+        self.mix = mix
         rng = random.Random(seed)
         self.tasks = {s: [f"{s}-{i:02d}" for i in range(n)] for s, n in SPLITS.items()}
         self._order = {s: rng.sample(t, len(t)) for s, t in self.tasks.items()}
@@ -51,7 +57,11 @@ class World:
     def delta(self, w: Weights, harness: str) -> int:
         if not w.trained_on:
             return 0
-        f = sum(h == harness for h in w.trained_on) / len(w.trained_on)
+        f = sum(h == harness for h in w.trained_on) / len(w.trained_on)   # matching share
+        if self.mix == "stale_wins":    # any stale data poisons the job
+            return GAIN[harness] if f == 1 else STALE_PENALTY
+        if self.mix == "majority":      # whichever side holds more data; a tie counts as stale
+            return GAIN[harness] if f > 0.5 else STALE_PENALTY
         return round(GAIN[harness] * f + STALE_PENALTY * (1 - f))
 
     def solved(self, w: Weights, harness: str, split: str, final: bool = False) -> set[str]:
