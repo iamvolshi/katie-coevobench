@@ -77,16 +77,15 @@ class Sealed(unittest.TestCase):
 class Model(unittest.TestCase):
     def test_id_matches_the_live_catalog_record(self):
         mc = json.loads((H / "model_check.json").read_text(encoding="utf-8"))
-        self.assertEqual(judge.MODEL, mc["chosen"])
-        self.assertIn(judge.MODEL, mc["catalog_ids"])
+        self.assertEqual(SEAL["judge_model"], mc["chosen"])
+        self.assertIn(mc["chosen"], mc["catalog_ids"])
         self.assertTrue(mc["chosen_in_catalog"])
-        self.assertEqual(SEAL["judge_model"], judge.MODEL)
+        self.assertEqual(mc["chosen"], "nvidia/nemotron-3.5-bolt-e4b")
 
-    def test_ultra_is_no_longer_the_judge(self):
-        self.assertNotIn("ultra", judge.MODEL)
-        self.assertEqual(inspect.signature(judge.NimJudge.__init__).parameters["model"].default, judge.MODEL)
+    def test_this_run_used_its_sealed_model_not_ultra(self):
+        self.assertNotIn("ultra", SEAL["judge_model"])
         if RES.exists():
-            self.assertEqual(json.loads(RES.read_text(encoding="utf-8"))["model"], judge.MODEL)
+            self.assertEqual(json.loads(RES.read_text(encoding="utf-8"))["model"], SEAL["judge_model"])
 
     def test_everything_else_frozen(self):
         self.assertEqual(heldout2.frozen_hashes(), SEAL["frozen"])

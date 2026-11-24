@@ -11,7 +11,7 @@ from pathlib import Path
 from .arms import run_arm
 from .erie import Erie, Outcome
 from .heldout import sha
-from .judge import NimJudge, parse_verdict, MODEL, cited_ids
+from .judge import NimJudge, parse_verdict, cited_ids
 from .record import Record
 from .scenarios import Scenario
 
@@ -137,7 +137,7 @@ def main(calls: int = 3):
     seal = json.loads((DIR / "SEAL.json").read_text(encoding="utf-8"))
     for f, h in seal["sealed"].items():
         assert sha(DIR.parent / f) == h, f"{f} changed after sealing"
-    judge = NimJudge()                                   # model id comes from judge.MODEL
+    judge = NimJudge(model=seal["judge_model"])           # the model sealed for this run, not judge.MODEL
     rows, verdicts = run_calls(judge, calls)             # step 1: judge calls, truth unseen
     truth = json.loads((DIR / "ground_truth.json").read_text(encoding="utf-8"))["truth"]   # step 2: only now
     for r in rows:
@@ -147,7 +147,7 @@ def main(calls: int = 3):
     git = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=DIR.parent).stdout.strip()
     Path("results").mkdir(exist_ok=True)
     Path("results/live-judge-held-out-2.json").write_text(json.dumps({
-        "model": MODEL, "calls_per_change": calls, "git_head_at_run": git, "seal": seal, "run_order": RUN_ORDER,
+        "model": seal["judge_model"], "calls_per_change": calls, "git_head_at_run": git, "seal": seal, "run_order": RUN_ORDER,
         "correct_after_backstop": sum(r["correct"] for r in rows), "total": len(rows),
         "correct_model_alone": sum(r["model_correct"] for r in rows),
         "rows": rows}, indent=1), encoding="utf-8")
