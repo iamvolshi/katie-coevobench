@@ -1,0 +1,114 @@
+{
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "base_url": "https://integrate.api.nvidia.com/v1",
+ "rows": [
+  {
+   "script": "noise",
+   "expected": "noise",
+   "kind": "noise",
+   "failed": false,
+   "reason": "Both E1 and E2 show tasks touched by the change with identical answers (solved) under old and new harnesses.",
+   "evidence": "E1, E2",
+   "raw_reply": "{\"kind\": \"noise\", \"reason\": \"Both E1 and E2 show tasks touched by the change with identical answers (solved) under old and new harnesses.\", \"evidence\": \"E1, E2\"}"
+  },
+  {
+   "script": "noise",
+   "expected": "noise",
+   "kind": "noise",
+   "failed": false,
+   "reason": "Both examples touched by the change (E1, E2) show identical answers under old and new harnesses, indicating no behavioral change.",
+   "evidence": "E1, E2",
+   "raw_reply": "{\"kind\": \"noise\", \"reason\": \"Both examples touched by the change (E1, E2) show identical answers under old and new harnesses, indicating no behavioral change.\", \"evidence\": \"E1, E2\"}"
+  },
+  {
+   "script": "noise",
+   "expected": "noise",
+   "kind": "noise",
+   "failed": false,
+   "reason": "Both examples touched by the change (E1, E2) show identical answers under old and new harnesses, with no example showing a changed answer.",
+   "evidence": "E1, E2",
+   "raw_reply": "{\"kind\": \"noise\", \"reason\": \"Both examples touched by the change (E1, E2) show identical answers under old and new harnesses, with no example showing a changed answer.\", \"evidence\": \"E1, E2\"}"
+  },
+  {
+   "script": "logical",
+   "expected": "logical",
+   "kind": "logical",
+   "failed": false,
+   "reason": "E1 shows a task where the answer changed from solved to NOT solved under the new harness, which adds a requirement that no extra state changes occur; the task involves deleting a draft file, an extra delete.",
+   "evidence": "E1",
+   "raw_reply": "{\"kind\": \"logical\", \"reason\": \"E1 shows a task where the answer changed from solved to NOT solved under the new harness, which adds a requirement that no extra state changes occur; the task involves deleting a draft file, an extra delete.\", \"evidence\": \"E1\"}"
+  },
+  {
+   "script": "logical",
+   "expected": "logical",
+   "kind": "logical",
+   "failed": false,
+   "reason": "E1 shows a task where the answer changed from solved to NOT solved under the new harness, which adds a requirement that no extra state changes occur; the task involves deleting a draft file, an extra write that now fails the task.",
+   "evidence": "E1",
+   "raw_reply": "{\"kind\": \"logical\", \"reason\": \"E1 shows a task where the answer changed from solved to NOT solved under the new harness, which adds a requirement that no extra state changes occur; the task involves deleting a draft file, an extra write that now fails the task.\", \"evidence\": \"E1\"}"
+  },
+  {
+   "script": "logical",
+   "expected": "logical",
+   "kind": "logical",
+   "failed": false,
+   "reason": "E1 shows a task whose answer changed from solved to NOT solved under the new harness, which adds a requirement that no extra state changes occur.",
+   "evidence": "E1",
+   "raw_reply": "{\"kind\": \"logical\", \"reason\": \"E1 shows a task whose answer changed from solved to NOT solved under the new harness, which adds a requirement that no extra state changes occur.\", \"evidence\": \"E1\"}"
+  },
+  {
+   "script": "ambiguous_matters",
+   "expected": "ambiguous",
+   "kind": "ambiguous",
+   "failed": false,
+   "reason": "E1 and E2 are tasks not touched by the date normalization change, so they provide no evidence of changed or unchanged answers for affected tasks.",
+   "evidence": "E1, E2",
+   "raw_reply": "{\"kind\": \"ambiguous\", \"reason\": \"E1 and E2 are tasks not touched by the date normalization change, so they provide no evidence of changed or unchanged answers for affected tasks.\", \"evidence\": \"E1, E2\"}"
+  },
+  {
+   "script": "ambiguous_matters",
+   "expected": "ambiguous",
+   "kind": "ambiguous",
+   "failed": false,
+   "reason": "The evidence packet only includes tasks (E1, E2) explicitly noted as not touched by the date-normalization change, so there is no data on whether any date-sensitive task outcomes changed.",
+   "evidence": "E1, E2",
+   "raw_reply": "{\"kind\": \"ambiguous\", \"reason\": \"The evidence packet only includes tasks (E1, E2) explicitly noted as not touched by the date-normalization change, so there is no data on whether any date-sensitive task outcomes changed.\", \"evidence\": \"E1, E2\"}"
+  },
+  {
+   "script": "ambiguous_matters",
+   "expected": "ambiguous",
+   "kind": "ambiguous",
+   "failed": false,
+   "reason": "Both examples (E1, E2) are explicitly noted as not touched by the date normalization change, so they provide no evidence of whether the change alters outcomes.",
+   "evidence": "E1, E2",
+   "raw_reply": "{\"kind\": \"ambiguous\", \"reason\": \"Both examples (E1, E2) are explicitly noted as not touched by the date normalization change, so they provide no evidence of whether the change alters outcomes.\", \"evidence\": \"E1, E2\"}"
+  },
+  {
+   "script": "ambiguous_harmless",
+   "expected": "ambiguous",
+   "kind": "ambiguous",
+   "failed": false,
+   "reason": "The evidence packet only contains examples of tasks not touched by the date normalization change (E1, E2), so we cannot determine if the change affects outcomes.",
+   "evidence": "E1, E2",
+   "raw_reply": "{\"kind\": \"ambiguous\", \"reason\": \"The evidence packet only contains examples of tasks not touched by the date normalization change (E1, E2), so we cannot determine if the change affects outcomes.\", \"evidence\": \"E1, E2\"}"
+  },
+  {
+   "script": "ambiguous_harmless",
+   "expected": "ambiguous",
+   "kind": "ambiguous",
+   "failed": false,
+   "reason": "The examples E1 and E2 are explicitly noted as not touched by the date normalization change, so they provide no evidence of whether the change affects outcomes.",
+   "evidence": "E1, E2",
+   "raw_reply": "{\"kind\": \"ambiguous\", \"reason\": \"The examples E1 and E2 are explicitly noted as not touched by the date normalization change, so they provide no evidence of whether the change affects outcomes.\", \"evidence\": \"E1, E2\"}"
+  },
+  {
+   "script": "ambiguous_harmless",
+   "expected": "ambiguous",
+   "kind": "ambiguous",
+   "failed": false,
+   "reason": "Both examples (E1, E2) are explicitly noted as not touched by the date normalization change, so there is no evidence of any task affected by the change.",
+   "evidence": "E1, E2",
+   "raw_reply": "{\"kind\": \"ambiguous\", \"reason\": \"Both examples (E1, E2) are explicitly noted as not touched by the date normalization change, so there is no evidence of any task affected by the change.\", \"evidence\": \"E1, E2\"}"
+  }
+ ]
+}

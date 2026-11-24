@@ -88,7 +88,8 @@ class NoEvidenceNeverLogical(unittest.TestCase):
 class PromptHasTheRecipe(unittest.TestCase):
     def test_prompt_rules_and_packet(self):
         p = build_prompt(OLD, SCENARIOS["logical"].new_text, Erie().retrieve(None, SCENARIOS["logical"].outcomes))
-        self.assertIn("If no example shows a changed answer, say ambiguous", p)
+        self.assertIn("If no example shows a changed answer, do not say logical", p)
+        self.assertIn("say noise", p)
         self.assertIn("Do not infer logical from the harness text alone", p)
         self.assertIn("E1 [example; source=replay:old+new-harness; authority=7]", p)
         self.assertIn("Cite the evidence you used by id", PROMPT)

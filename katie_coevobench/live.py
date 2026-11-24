@@ -6,10 +6,10 @@ from .scenarios import SCENARIOS, OLD
 from .erie import Erie
 
 
-def main():
+def main(runs: int = 3):
     j = NimJudge()   # raises if NIM_API_KEY is unset: nothing is invented
     rows = []
-    for name in ("noise", "logical", "ambiguous_matters", "ambiguous_harmless"):
+    for name, _ in [(n, r) for n in ("noise", "logical", "ambiguous_matters", "ambiguous_harmless") for r in range(runs)]:
         sc = SCENARIOS[name]
         try:
             packet = Erie().retrieve(None, sc.outcomes, name)
@@ -27,4 +27,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    main(int(sys.argv[1]) if len(sys.argv) > 1 else 3)

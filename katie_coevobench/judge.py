@@ -41,7 +41,8 @@ Kinds:
   (for instance, the examples are not touched by the change).
 
 Rules:
-1. If no example shows a changed answer, say ambiguous. Do not infer logical from the harness text alone, however real the change looks.
+1. If no example shows a changed answer, do not say logical. Do not infer logical from the harness text alone, however real the change looks.
+   Then choose: if the examples touched by the change show the same answer under both harnesses, say noise; if the examples are untouched or the evidence is thin, say ambiguous.
 2. A task the change does not touch proves nothing. Do not count it as proof of noise.
 3. Cite the evidence you used by id in the "evidence" field, for example "E1, E3". Cite nothing you did not use.
 4. If you cannot tell, answer ambiguous. Never guess.
@@ -157,7 +158,7 @@ class NimJudge(Judge):
             raise RuntimeError("NIM_API_KEY is not set")
 
     def raw(self, old, new, packet):
-        body = json.dumps({"model": self.model, "temperature": 0, "max_tokens": 2048,
+        body = json.dumps({"model": self.model, "temperature": 0, "max_tokens": 8192,
                            "messages": [{"role": "user", "content": build_prompt(old, new, packet)}]}).encode()
         req = urllib.request.Request(self.base_url + "/chat/completions", body,
                                      {"Content-Type": "application/json", "Authorization": "Bearer " + self._key})
