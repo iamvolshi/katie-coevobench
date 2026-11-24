@@ -1,0 +1,321 @@
+[
+ {
+  "change": "H2-L1",
+  "truth_kind": "logical",
+  "judge_kind": "logical",
+  "judge_failed": false,
+  "judge_correct": true,
+  "katie_stages": [
+   14,
+   19,
+   14,
+   14,
+   18
+  ],
+  "control_stages": [
+   14,
+   19,
+   10,
+   13,
+   18
+  ],
+  "katie_jobs_skipped": 1,
+  "katie_jobs_hurt": 0,
+  "control_jobs_hurt": 1,
+  "katie_dip": 0,
+  "control_dip": -4,
+  "katie_final_test": 18,
+  "control_final_test": 18,
+  "ends_equal": true
+ },
+ {
+  "change": "H2-L2",
+  "truth_kind": "logical",
+  "judge_kind": "logical",
+  "judge_failed": false,
+  "judge_correct": true,
+  "katie_stages": [
+   14,
+   19,
+   14,
+   14,
+   18
+  ],
+  "control_stages": [
+   14,
+   19,
+   10,
+   13,
+   18
+  ],
+  "katie_jobs_skipped": 1,
+  "katie_jobs_hurt": 0,
+  "control_jobs_hurt": 1,
+  "katie_dip": 0,
+  "control_dip": -4,
+  "katie_final_test": 18,
+  "control_final_test": 18,
+  "ends_equal": true
+ },
+ {
+  "change": "H2-L3",
+  "truth_kind": "logical",
+  "judge_kind": "logical",
+  "judge_failed": false,
+  "judge_correct": true,
+  "katie_stages": [
+   14,
+   19,
+   14,
+   14,
+   18
+  ],
+  "control_stages": [
+   14,
+   19,
+   10,
+   13,
+   18
+  ],
+  "katie_jobs_skipped": 1,
+  "katie_jobs_hurt": 0,
+  "control_jobs_hurt": 1,
+  "katie_dip": 0,
+  "control_dip": -4,
+  "katie_final_test": 18,
+  "control_final_test": 18,
+  "ends_equal": true
+ },
+ {
+  "change": "H2-A1-matters",
+  "truth_kind": "ambiguous",
+  "judge_kind": "ambiguous",
+  "judge_failed": false,
+  "judge_correct": true,
+  "katie_stages": [
+   14,
+   19,
+   14,
+   14,
+   18
+  ],
+  "control_stages": [
+   14,
+   19,
+   10,
+   13,
+   18
+  ],
+  "katie_jobs_skipped": 1,
+  "katie_jobs_hurt": 0,
+  "control_jobs_hurt": 1,
+  "katie_dip": 0,
+  "control_dip": -4,
+  "katie_final_test": 18,
+  "control_final_test": 18,
+  "ends_equal": true
+ },
+ {
+  "change": "H2-A1-harmless",
+  "truth_kind": "ambiguous",
+  "judge_kind": "ambiguous",
+  "judge_failed": false,
+  "judge_correct": true,
+  "katie_stages": [
+   14,
+   19,
+   14,
+   14,
+   19
+  ],
+  "control_stages": [
+   14,
+   19,
+   19,
+   19,
+   19
+  ],
+  "katie_jobs_skipped": 1,
+  "katie_jobs_hurt": 0,
+  "control_jobs_hurt": 0,
+  "katie_dip": 0,
+  "control_dip": 5,
+  "katie_final_test": 19,
+  "control_final_test": 19,
+  "ends_equal": true
+ },
+ {
+  "change": "H2-A2-matters",
+  "truth_kind": "ambiguous",
+  "judge_kind": "ambiguous",
+  "judge_failed": false,
+  "judge_correct": true,
+  "katie_stages": [
+   14,
+   19,
+   14,
+   14,
+   18
+  ],
+  "control_stages": [
+   14,
+   19,
+   10,
+   13,
+   18
+  ],
+  "katie_jobs_skipped": 1,
+  "katie_jobs_hurt": 0,
+  "control_jobs_hurt": 1,
+  "katie_dip": 0,
+  "control_dip": -4,
+  "katie_final_test": 18,
+  "control_final_test": 18,
+  "ends_equal": true
+ },
+ {
+  "change": "H2-A2-harmless",
+  "truth_kind": "ambiguous",
+  "judge_kind": "ambiguous",
+  "judge_failed": false,
+  "judge_correct": true,
+  "katie_stages": [
+   14,
+   19,
+   14,
+   14,
+   19
+  ],
+  "control_stages": [
+   14,
+   19,
+   19,
+   19,
+   19
+  ],
+  "katie_jobs_skipped": 1,
+  "katie_jobs_hurt": 0,
+  "control_jobs_hurt": 0,
+  "katie_dip": 0,
+  "control_dip": 5,
+  "katie_final_test": 19,
+  "control_final_test": 19,
+  "ends_equal": true
+ },
+ {
+  "change": "H2-A3-matters",
+  "truth_kind": "ambiguous",
+  "judge_kind": "noise",
+  "judge_failed": false,
+  "judge_correct": false,
+  "katie_stages": [
+   14,
+   19,
+   10,
+   13,
+   14
+  ],
+  "control_stages": [
+   14,
+   19,
+   10,
+   13,
+   18
+  ],
+  "katie_jobs_skipped": 0,
+  "katie_jobs_hurt": 1,
+  "control_jobs_hurt": 1,
+  "katie_dip": -4,
+  "control_dip": -4,
+  "katie_final_test": 14,
+  "control_final_test": 18,
+  "ends_equal": false
+ },
+ {
+  "change": "H2-A3-harmless",
+  "truth_kind": "ambiguous",
+  "judge_kind": "noise",
+  "judge_failed": false,
+  "judge_correct": false,
+  "katie_stages": [
+   14,
+   19,
+   19,
+   19,
+   19
+  ],
+  "control_stages": [
+   14,
+   19,
+   19,
+   19,
+   19
+  ],
+  "katie_jobs_skipped": 0,
+  "katie_jobs_hurt": 0,
+  "control_jobs_hurt": 0,
+  "katie_dip": 5,
+  "control_dip": 5,
+  "katie_final_test": 19,
+  "control_final_test": 19,
+  "ends_equal": true
+ },
+ {
+  "change": "H2-A4-matters",
+  "truth_kind": "ambiguous",
+  "judge_kind": "ambiguous",
+  "judge_failed": true,
+  "judge_correct": true,
+  "katie_stages": [
+   14,
+   19,
+   14,
+   14,
+   18
+  ],
+  "control_stages": [
+   14,
+   19,
+   10,
+   13,
+   18
+  ],
+  "katie_jobs_skipped": 1,
+  "katie_jobs_hurt": 0,
+  "control_jobs_hurt": 1,
+  "katie_dip": 0,
+  "control_dip": -4,
+  "katie_final_test": 18,
+  "control_final_test": 18,
+  "ends_equal": true
+ },
+ {
+  "change": "H2-A4-harmless",
+  "truth_kind": "ambiguous",
+  "judge_kind": "ambiguous",
+  "judge_failed": true,
+  "judge_correct": true,
+  "katie_stages": [
+   14,
+   19,
+   14,
+   14,
+   19
+  ],
+  "control_stages": [
+   14,
+   19,
+   19,
+   19,
+   19
+  ],
+  "katie_jobs_skipped": 1,
+  "katie_jobs_hurt": 0,
+  "control_jobs_hurt": 0,
+  "katie_dip": 0,
+  "control_dip": 5,
+  "katie_final_test": 19,
+  "control_final_test": 19,
+  "ends_equal": true
+ }
+]
