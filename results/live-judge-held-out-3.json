@@ -1,0 +1,837 @@
+{
+ "model": "moonshotai/kimi-k3.1-pro",
+ "calls_per_change": 3,
+ "git_head_at_run": "7a65c448c2a02c40d9deffd4d6fabf3c47809abb",
+ "seal": {
+  "note": "sha256 of LF-normalized files, sealed before any held-out-3 judge call. Set written by Turdy (commit a81bb86).",
+  "turdy_commit": "a81bb86",
+  "sealed": {
+   "heldout3/changes.json": "e5fee9a3e5c5498b5e44be2f4f1b49a0b063b83cfe9f239a18fd765b7b4da19d",
+   "heldout3/ground_truth.json": "b0f7e0b69a9d7126604f5f1870bfde7c2fb29a369330b617c862bf77d1c4be71",
+   "heldout3/README.md": "3cdf0c065bd57f39a80094d802ca559a4cf25efc85339e58827998a269eda1e4",
+   "heldout3/model_check.json": "e5336f52434e8b81e4e28286a3a3087fd0777ee809133f942964ee2bb89f6c64"
+  },
+  "judge_model": "moonshotai/kimi-k3.1-pro",
+  "frozen": {
+   "PROMPT": "9f744f0114bad529cdbcad8d9afdf20e0fb5e22abc8855072ed187675e7f2a8b",
+   "backstop": "4f509888952c1b723f3de07d4b79138e1a44f27d8488a6a98c67e50712a1f042",
+   "judge.py without MODEL line": "323b517cda83f890a7728eda147423cb9646f8580acc199a53fc1ce219573f79",
+   "erie.py": "9df36c07ba515c21ee1470e007ef988e9ac8ec87645e9e0f9f4815b8e174245d"
+  }
+ },
+ "run_order": [
+  "H3-N1",
+  "H3-N2",
+  "H3-L1",
+  "H3-L2",
+  "H3-N3",
+  "H3-L3",
+  "H3-A1",
+  "H3-A2",
+  "H3-A3",
+  "H3-A4"
+ ],
+ "correct_after_backstop": 27,
+ "total": 30,
+ "correct_model_alone": 27,
+ "rows": [
+  {
+   "id": "H3-N1",
+   "call": 1,
+   "model_kind": "noise",
+   "model_failed": false,
+   "kind": "noise",
+   "failed": false,
+   "reason": "E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses. Neither example shows a changed answer.",
+   "evidence": "E1, E2",
+   "cited": [
+    "E1",
+    "E2"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 0,
+   "prior_provenance": [],
+   "raw_reply": "{\"kind\":\"noise\",\"reason\":\"E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses. Neither example shows a changed answer.\",\"evidence\":\"E1, E2\"}",
+   "truth_kind": "noise",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-N1",
+   "call": 2,
+   "model_kind": "noise",
+   "model_failed": false,
+   "kind": "noise",
+   "failed": false,
+   "reason": "E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses, so neither example shows a changed answer.",
+   "evidence": "E1, E2",
+   "cited": [
+    "E1",
+    "E2"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 0,
+   "prior_provenance": [],
+   "raw_reply": "{\"kind\":\"noise\",\"reason\":\"E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses, so neither example shows a changed answer.\",\"evidence\":\"E1, E2\"}",
+   "truth_kind": "noise",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-N1",
+   "call": 3,
+   "model_kind": "noise",
+   "model_failed": false,
+   "kind": "noise",
+   "failed": false,
+   "reason": "E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses, so neither touched example shows a changed answer.",
+   "evidence": "E1, E2",
+   "cited": [
+    "E1",
+    "E2"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 0,
+   "prior_provenance": [],
+   "raw_reply": "{\"kind\":\"noise\",\"reason\":\"E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses, so neither touched example shows a changed answer.\",\"evidence\":\"E1, E2\"}",
+   "truth_kind": "noise",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-N2",
+   "call": 1,
+   "model_kind": "noise",
+   "model_failed": false,
+   "kind": "noise",
+   "failed": false,
+   "reason": "E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses, so neither shows a changed outcome.",
+   "evidence": "E1, E2",
+   "cited": [
+    "E1",
+    "E2"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 0,
+   "prior_provenance": [],
+   "raw_reply": "{\"kind\":\"noise\",\"reason\":\"E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses, so neither shows a changed outcome.\",\"evidence\":\"E1, E2\"}",
+   "truth_kind": "noise",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-N2",
+   "call": 2,
+   "model_kind": "noise",
+   "model_failed": false,
+   "kind": "noise",
+   "failed": false,
+   "reason": "E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses, so neither touched example shows a changed answer.",
+   "evidence": "E1, E2",
+   "cited": [
+    "E1",
+    "E2"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 0,
+   "prior_provenance": [],
+   "raw_reply": "{\"kind\":\"noise\",\"reason\":\"E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses, so neither touched example shows a changed answer.\",\"evidence\":\"E1, E2\"}",
+   "truth_kind": "noise",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-N2",
+   "call": 3,
+   "model_kind": "noise",
+   "model_failed": false,
+   "kind": "noise",
+   "failed": false,
+   "reason": "E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses, so neither touched example shows a changed answer.",
+   "evidence": "E1, E2",
+   "cited": [
+    "E1",
+    "E2"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 0,
+   "prior_provenance": [],
+   "raw_reply": "{\"kind\":\"noise\",\"reason\":\"E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses, so neither touched example shows a changed answer.\",\"evidence\":\"E1, E2\"}",
+   "truth_kind": "noise",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-L1",
+   "call": 1,
+   "model_kind": "logical",
+   "model_failed": false,
+   "kind": "logical",
+   "failed": false,
+   "reason": "E1 shows a task touched by the password-length change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.",
+   "evidence": "E1",
+   "cited": [
+    "E1"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 0,
+   "prior_provenance": [],
+   "raw_reply": "{\"kind\":\"logical\",\"reason\":\"E1 shows a task touched by the password-length change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.\",\"evidence\":\"E1\"}",
+   "truth_kind": "logical",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-L1",
+   "call": 2,
+   "model_kind": "logical",
+   "model_failed": false,
+   "kind": "logical",
+   "failed": false,
+   "reason": "E1 shows a task touched by the change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.",
+   "evidence": "E1",
+   "cited": [
+    "E1"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 0,
+   "prior_provenance": [],
+   "raw_reply": "{\"kind\":\"logical\",\"reason\":\"E1 shows a task touched by the change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.\",\"evidence\":\"E1\"}",
+   "truth_kind": "logical",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-L1",
+   "call": 3,
+   "model_kind": "logical",
+   "model_failed": false,
+   "kind": "logical",
+   "failed": false,
+   "reason": "E1 is a touched replay example whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.",
+   "evidence": "E1",
+   "cited": [
+    "E1"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 0,
+   "prior_provenance": [],
+   "raw_reply": "{\"kind\":\"logical\",\"reason\":\"E1 is a touched replay example whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.\",\"evidence\":\"E1\"}",
+   "truth_kind": "logical",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-L2",
+   "call": 1,
+   "model_kind": "logical",
+   "model_failed": false,
+   "kind": "logical",
+   "failed": false,
+   "reason": "E1 shows a task touched by the change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.",
+   "evidence": "E1",
+   "cited": [
+    "E1"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 0,
+   "prior_provenance": [],
+   "raw_reply": "{\"kind\":\"logical\",\"reason\":\"E1 shows a task touched by the change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.\",\"evidence\":\"E1\"}",
+   "truth_kind": "logical",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-L2",
+   "call": 2,
+   "model_kind": "logical",
+   "model_failed": false,
+   "kind": "logical",
+   "failed": false,
+   "reason": "E1 shows a task touched by the change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.",
+   "evidence": "E1",
+   "cited": [
+    "E1"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 0,
+   "prior_provenance": [],
+   "raw_reply": "{\"kind\":\"logical\",\"reason\":\"E1 shows a task touched by the change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.\",\"evidence\":\"E1\"}",
+   "truth_kind": "logical",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-L2",
+   "call": 3,
+   "model_kind": "logical",
+   "model_failed": false,
+   "kind": "logical",
+   "failed": false,
+   "reason": "E1 shows a task touched by the change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.",
+   "evidence": "E1",
+   "cited": [
+    "E1"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 0,
+   "prior_provenance": [],
+   "raw_reply": "{\"kind\":\"logical\",\"reason\":\"E1 shows a task touched by the change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.\",\"evidence\":\"E1\"}",
+   "truth_kind": "logical",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-N3",
+   "call": 1,
+   "model_kind": "noise",
+   "model_failed": false,
+   "kind": "noise",
+   "failed": false,
+   "reason": "E1 and E2 are both touched by the change and remain 'solved' under both harnesses, so neither shows a changed answer. E3 reports that the earlier change was judged noise, not that it changed an outcome.",
+   "evidence": "E1, E2, E3",
+   "cited": [
+    "E1",
+    "E2",
+    "E3"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 1,
+   "prior_provenance": [
+    {
+     "source_run": "H3-N1",
+     "kind": "noise",
+     "reason": "E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses. Neither example shows a changed answer.",
+     "failed": false,
+     "next_job_hurt": false,
+     "file_said": {
+      "kind": "noise",
+      "next_job_hurt": false
+     }
+    }
+   ],
+   "raw_reply": "{\"kind\":\"noise\",\"reason\":\"E1 and E2 are both touched by the change and remain 'solved' under both harnesses, so neither shows a changed answer. E3 reports that the earlier change was judged noise, not that it changed an outcome.\",\"evidence\":\"E1, E2, E3\"}",
+   "truth_kind": "noise",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-N3",
+   "call": 2,
+   "model_kind": "noise",
+   "model_failed": false,
+   "kind": "noise",
+   "failed": false,
+   "reason": "E1 and E2 were touched by the change and show the same 'solved' answer under both harnesses. E3 records the earlier harness change as noise, with no changed outcome reported.",
+   "evidence": "E1, E2, E3",
+   "cited": [
+    "E1",
+    "E2",
+    "E3"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 1,
+   "prior_provenance": [
+    {
+     "source_run": "H3-N1",
+     "kind": "noise",
+     "reason": "E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses. Neither example shows a changed answer.",
+     "failed": false,
+     "next_job_hurt": false,
+     "file_said": {
+      "kind": "noise",
+      "next_job_hurt": false
+     }
+    }
+   ],
+   "raw_reply": "{\"kind\":\"noise\",\"reason\":\"E1 and E2 were touched by the change and show the same 'solved' answer under both harnesses. E3 records the earlier harness change as noise, with no changed outcome reported.\",\"evidence\":\"E1, E2, E3\"}",
+   "truth_kind": "noise",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-N3",
+   "call": 3,
+   "model_kind": "noise",
+   "model_failed": false,
+   "kind": "noise",
+   "failed": false,
+   "reason": "E1 and E2 are touched by the change and remain solved under both harnesses, so neither shows a changed answer. E3 records an earlier change judged noise, not an earlier outcome change.",
+   "evidence": "E1, E2, E3",
+   "cited": [
+    "E1",
+    "E2",
+    "E3"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 1,
+   "prior_provenance": [
+    {
+     "source_run": "H3-N1",
+     "kind": "noise",
+     "reason": "E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses. Neither example shows a changed answer.",
+     "failed": false,
+     "next_job_hurt": false,
+     "file_said": {
+      "kind": "noise",
+      "next_job_hurt": false
+     }
+    }
+   ],
+   "raw_reply": "{\"kind\":\"noise\",\"reason\":\"E1 and E2 are touched by the change and remain solved under both harnesses, so neither shows a changed answer. E3 records an earlier change judged noise, not an earlier outcome change.\",\"evidence\":\"E1, E2, E3\"}",
+   "truth_kind": "noise",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-L3",
+   "call": 1,
+   "model_kind": "logical",
+   "model_failed": false,
+   "kind": "logical",
+   "failed": false,
+   "reason": "E1 shows a task touched by the change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.",
+   "evidence": "E1",
+   "cited": [
+    "E1"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 1,
+   "prior_provenance": [
+    {
+     "source_run": "H3-N2",
+     "kind": "noise",
+     "reason": "E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses, so neither shows a changed outcome.",
+     "failed": false,
+     "next_job_hurt": false,
+     "file_said": {
+      "kind": "noise",
+      "next_job_hurt": false
+     }
+    }
+   ],
+   "raw_reply": "{\"kind\":\"logical\",\"reason\":\"E1 shows a task touched by the change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.\",\"evidence\":\"E1\"}",
+   "truth_kind": "logical",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-L3",
+   "call": 2,
+   "model_kind": "logical",
+   "model_failed": false,
+   "kind": "logical",
+   "failed": false,
+   "reason": "E1 shows a touched task whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.",
+   "evidence": "E1",
+   "cited": [
+    "E1"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 1,
+   "prior_provenance": [
+    {
+     "source_run": "H3-N2",
+     "kind": "noise",
+     "reason": "E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses, so neither shows a changed outcome.",
+     "failed": false,
+     "next_job_hurt": false,
+     "file_said": {
+      "kind": "noise",
+      "next_job_hurt": false
+     }
+    }
+   ],
+   "raw_reply": "{\"kind\":\"logical\",\"reason\":\"E1 shows a touched task whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.\",\"evidence\":\"E1\"}",
+   "truth_kind": "logical",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-L3",
+   "call": 3,
+   "model_kind": "logical",
+   "model_failed": false,
+   "kind": "logical",
+   "failed": false,
+   "reason": "E1 shows a task touched by the change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.",
+   "evidence": "E1",
+   "cited": [
+    "E1"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 1,
+   "prior_provenance": [
+    {
+     "source_run": "H3-N2",
+     "kind": "noise",
+     "reason": "E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses, so neither shows a changed outcome.",
+     "failed": false,
+     "next_job_hurt": false,
+     "file_said": {
+      "kind": "noise",
+      "next_job_hurt": false
+     }
+    }
+   ],
+   "raw_reply": "{\"kind\":\"logical\",\"reason\":\"E1 shows a task touched by the change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.\",\"evidence\":\"E1\"}",
+   "truth_kind": "logical",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-A1",
+   "call": 1,
+   "model_kind": "ambiguous",
+   "model_failed": false,
+   "kind": "ambiguous",
+   "failed": false,
+   "reason": "E1 shows the same solved outcome under both harnesses, but the task was not touched by the language change, so it proves nothing about whether answers changed.",
+   "evidence": "E1",
+   "cited": [
+    "E1"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 0,
+   "prior_provenance": [],
+   "raw_reply": "{\"kind\":\"ambiguous\",\"reason\":\"E1 shows the same solved outcome under both harnesses, but the task was not touched by the language change, so it proves nothing about whether answers changed.\",\"evidence\":\"E1\"}",
+   "truth_kind": "ambiguous",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-A1",
+   "call": 2,
+   "model_kind": "ambiguous",
+   "model_failed": false,
+   "kind": "ambiguous",
+   "failed": false,
+   "reason": "E1 shows the same solved outcome under both harnesses, but the task was not touched by the language change, so it proves nothing about whether answers changed.",
+   "evidence": "E1",
+   "cited": [
+    "E1"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 0,
+   "prior_provenance": [],
+   "raw_reply": "{\"kind\":\"ambiguous\",\"reason\":\"E1 shows the same solved outcome under both harnesses, but the task was not touched by the language change, so it proves nothing about whether answers changed.\",\"evidence\":\"E1\"}",
+   "truth_kind": "ambiguous",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-A1",
+   "call": 3,
+   "model_kind": "ambiguous",
+   "model_failed": false,
+   "kind": "ambiguous",
+   "failed": false,
+   "reason": "E1 shows the same solved outcome under both harnesses, but the task was not touched by the language change, so it proves nothing about whether answers changed.",
+   "evidence": "E1",
+   "cited": [
+    "E1"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 0,
+   "prior_provenance": [],
+   "raw_reply": "{\"kind\":\"ambiguous\",\"reason\":\"E1 shows the same solved outcome under both harnesses, but the task was not touched by the language change, so it proves nothing about whether answers changed.\",\"evidence\":\"E1\"}",
+   "truth_kind": "ambiguous",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-A2",
+   "call": 1,
+   "model_kind": "ambiguous",
+   "model_failed": false,
+   "kind": "ambiguous",
+   "failed": false,
+   "reason": "E1 and E2 show unchanged answers, but both tasks were untouched by the thumbnail change and prove nothing either way. No example touched by the change shows whether an answer changed.",
+   "evidence": "E1, E2",
+   "cited": [
+    "E1",
+    "E2"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 2,
+   "prior_provenance": [
+    {
+     "source_run": "H3-N2",
+     "kind": "noise",
+     "reason": "E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses, so neither shows a changed outcome.",
+     "failed": false,
+     "next_job_hurt": false,
+     "file_said": {
+      "kind": "noise",
+      "next_job_hurt": false
+     }
+    },
+    {
+     "source_run": "H3-L2",
+     "kind": "logical",
+     "reason": "E1 shows a task touched by the change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.",
+     "failed": false,
+     "next_job_hurt": true,
+     "file_said": {
+      "kind": "logical",
+      "next_job_hurt": true
+     }
+    }
+   ],
+   "raw_reply": "{\"kind\":\"ambiguous\",\"reason\":\"E1 and E2 show unchanged answers, but both tasks were untouched by the thumbnail change and prove nothing either way. No example touched by the change shows whether an answer changed.\",\"evidence\":\"E1, E2\"}",
+   "truth_kind": "ambiguous",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-A2",
+   "call": 2,
+   "model_kind": "ambiguous",
+   "model_failed": false,
+   "kind": "ambiguous",
+   "failed": false,
+   "reason": "E1 and E2 show unchanged answers, but both tasks were untouched by the image-thumbnail change and therefore prove nothing either way. No touched example shows whether an answer changed.",
+   "evidence": "E1, E2",
+   "cited": [
+    "E1",
+    "E2"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 2,
+   "prior_provenance": [
+    {
+     "source_run": "H3-N2",
+     "kind": "noise",
+     "reason": "E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses, so neither shows a changed outcome.",
+     "failed": false,
+     "next_job_hurt": false,
+     "file_said": {
+      "kind": "noise",
+      "next_job_hurt": false
+     }
+    },
+    {
+     "source_run": "H3-L2",
+     "kind": "logical",
+     "reason": "E1 shows a task touched by the change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.",
+     "failed": false,
+     "next_job_hurt": true,
+     "file_said": {
+      "kind": "logical",
+      "next_job_hurt": true
+     }
+    }
+   ],
+   "raw_reply": "{\"kind\":\"ambiguous\",\"reason\":\"E1 and E2 show unchanged answers, but both tasks were untouched by the image-thumbnail change and therefore prove nothing either way. No touched example shows whether an answer changed.\",\"evidence\":\"E1, E2\"}",
+   "truth_kind": "ambiguous",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-A2",
+   "call": 3,
+   "model_kind": "ambiguous",
+   "model_failed": false,
+   "kind": "ambiguous",
+   "failed": false,
+   "reason": "E1 and E2 both remain 'solved', but both are explicitly untouched by the image-size change, so they prove nothing either way. No touched example shows whether an answer changed.",
+   "evidence": "E1, E2",
+   "cited": [
+    "E1",
+    "E2"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 2,
+   "prior_provenance": [
+    {
+     "source_run": "H3-N2",
+     "kind": "noise",
+     "reason": "E1 and E2 are both touched by the change and remain 'solved' under the old and new harnesses, so neither shows a changed outcome.",
+     "failed": false,
+     "next_job_hurt": false,
+     "file_said": {
+      "kind": "noise",
+      "next_job_hurt": false
+     }
+    },
+    {
+     "source_run": "H3-L2",
+     "kind": "logical",
+     "reason": "E1 shows a task touched by the change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.",
+     "failed": false,
+     "next_job_hurt": true,
+     "file_said": {
+      "kind": "logical",
+      "next_job_hurt": true
+     }
+    }
+   ],
+   "raw_reply": "{\"kind\":\"ambiguous\",\"reason\":\"E1 and E2 both remain 'solved', but both are explicitly untouched by the image-size change, so they prove nothing either way. No touched example shows whether an answer changed.\",\"evidence\":\"E1, E2\"}",
+   "truth_kind": "ambiguous",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-A3",
+   "call": 1,
+   "model_kind": "noise",
+   "model_failed": false,
+   "kind": "noise",
+   "failed": false,
+   "reason": "E1 is touched by the Spotify listing change and shows the same 'solved' answer under both harnesses; no example shows a changed answer.",
+   "evidence": "E1",
+   "cited": [
+    "E1"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 0,
+   "prior_provenance": [],
+   "raw_reply": "{\"kind\":\"noise\",\"reason\":\"E1 is touched by the Spotify listing change and shows the same 'solved' answer under both harnesses; no example shows a changed answer.\",\"evidence\":\"E1\"}",
+   "truth_kind": "ambiguous",
+   "correct": false,
+   "model_correct": false
+  },
+  {
+   "id": "H3-A3",
+   "call": 2,
+   "model_kind": "noise",
+   "model_failed": false,
+   "kind": "noise",
+   "failed": false,
+   "reason": "E1 is touched by the Spotify listing change and has the same 'solved' answer under both harnesses. No example shows a changed answer.",
+   "evidence": "E1",
+   "cited": [
+    "E1"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 0,
+   "prior_provenance": [],
+   "raw_reply": "{\"kind\":\"noise\",\"reason\":\"E1 is touched by the Spotify listing change and has the same 'solved' answer under both harnesses. No example shows a changed answer.\",\"evidence\":\"E1\"}",
+   "truth_kind": "ambiguous",
+   "correct": false,
+   "model_correct": false
+  },
+  {
+   "id": "H3-A3",
+   "call": 3,
+   "model_kind": "noise",
+   "model_failed": false,
+   "kind": "noise",
+   "failed": false,
+   "reason": "E1 is touched by the Spotify listing change and shows the same 'solved' answer under both harnesses, so the touched example shows no outcome change.",
+   "evidence": "E1",
+   "cited": [
+    "E1"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 0,
+   "prior_provenance": [],
+   "raw_reply": "{\"kind\":\"noise\",\"reason\":\"E1 is touched by the Spotify listing change and shows the same 'solved' answer under both harnesses, so the touched example shows no outcome change.\",\"evidence\":\"E1\"}",
+   "truth_kind": "ambiguous",
+   "correct": false,
+   "model_correct": false
+  },
+  {
+   "id": "H3-A4",
+   "call": 1,
+   "model_kind": "ambiguous",
+   "model_failed": false,
+   "kind": "ambiguous",
+   "failed": false,
+   "reason": "E1 and E2 show unchanged answers on touched tasks, but E3 records an earlier change judged logical followed by a training job that hurt, so the noise condition is not met; no example shows this change altering an answer.",
+   "evidence": "E1, E2, E3",
+   "cited": [
+    "E1",
+    "E2",
+    "E3"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 1,
+   "prior_provenance": [
+    {
+     "source_run": "H3-L1",
+     "kind": "logical",
+     "reason": "E1 shows a task touched by the password-length change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.",
+     "failed": false,
+     "next_job_hurt": true,
+     "file_said": {
+      "kind": "logical",
+      "next_job_hurt": true
+     }
+    }
+   ],
+   "raw_reply": "{\"kind\":\"ambiguous\",\"reason\":\"E1 and E2 show unchanged answers on touched tasks, but E3 records an earlier change judged logical followed by a training job that hurt, so the noise condition is not met; no example shows this change altering an answer.\",\"evidence\":\"E1, E2, E3\"}",
+   "truth_kind": "ambiguous",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-A4",
+   "call": 2,
+   "model_kind": "ambiguous",
+   "model_failed": false,
+   "kind": "ambiguous",
+   "failed": false,
+   "reason": "E1 and E2 show unchanged answers on touched tasks, but E3 records an earlier harness change judged logical, so the packet does not meet the noise condition. No example shows an answer changed by the current harness, so logical is also unsupported.",
+   "evidence": "E1, E2, E3",
+   "cited": [
+    "E1",
+    "E2",
+    "E3"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 1,
+   "prior_provenance": [
+    {
+     "source_run": "H3-L1",
+     "kind": "logical",
+     "reason": "E1 shows a task touched by the password-length change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.",
+     "failed": false,
+     "next_job_hurt": true,
+     "file_said": {
+      "kind": "logical",
+      "next_job_hurt": true
+     }
+    }
+   ],
+   "raw_reply": "{\"kind\":\"ambiguous\",\"reason\":\"E1 and E2 show unchanged answers on touched tasks, but E3 records an earlier harness change judged logical, so the packet does not meet the noise condition. No example shows an answer changed by the current harness, so logical is also unsupported.\",\"evidence\":\"E1, E2, E3\"}",
+   "truth_kind": "ambiguous",
+   "correct": true,
+   "model_correct": true
+  },
+  {
+   "id": "H3-A4",
+   "call": 3,
+   "model_kind": "ambiguous",
+   "model_failed": false,
+   "kind": "ambiguous",
+   "failed": false,
+   "reason": "E1 and E2 show unchanged answers on touched tasks, but E3 records an earlier harness change judged logical, so the condition that no earlier change altered an outcome is not met. No current example shows a changed answer, so the evidence supports neither logical nor noise.",
+   "evidence": "E1, E2, E3",
+   "cited": [
+    "E1",
+    "E2",
+    "E3"
+   ],
+   "backstop_changed_it": false,
+   "priors_in_packet": 1,
+   "prior_provenance": [
+    {
+     "source_run": "H3-L1",
+     "kind": "logical",
+     "reason": "E1 shows a task touched by the password-length change whose answer changed from 'solved' under the old harness to 'NOT solved' under the new harness.",
+     "failed": false,
+     "next_job_hurt": true,
+     "file_said": {
+      "kind": "logical",
+      "next_job_hurt": true
+     }
+    }
+   ],
+   "raw_reply": "{\"kind\":\"ambiguous\",\"reason\":\"E1 and E2 show unchanged answers on touched tasks, but E3 records an earlier harness change judged logical, so the condition that no earlier change altered an outcome is not met. No current example shows a changed answer, so the evidence supports neither logical nor noise.\",\"evidence\":\"E1, E2, E3\"}",
+   "truth_kind": "ambiguous",
+   "correct": true,
+   "model_correct": true
+  }
+ ]
+}
