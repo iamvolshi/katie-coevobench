@@ -1,38 +1,41 @@
-# REPORT: OCME-008-evo, the partial-coverage backstop, proven on held-out set 4 (Turdy)
+# REPORT: OCME-009-evo, a quicker judge (Bolt) on held-out set 5 (Turdy)
 
-Branch `feat/partial-backstop`, from `feat/kimi-k3-judge` (`00839bc`) plus Turdy's `feat/held-out-set-4` at `0f4d231`. Still a simulation: nothing trained, no AppWorld run. Judge unchanged: K3, `moonshotai/kimi-k3.1-pro`, timeout 900 s, `max_tokens` 8192, temperature 0. Key from env only.
+Branch `feat/quick-judge-set-5`, from `feat/partial-backstop` (`84ae523`) plus Turdy's `feat/held-out-set-5` (`f2d6b7e`). Still a simulation: nothing trained, no AppWorld run. Key from env only.
 
-## Headline: the proof bar is met
-**H4-A3 and H4-A4 came back `partial`, 3 of 3 each. H4-N1, H4-N2, H4-N3 came back `noise`, 3 of 3 each.** No partial case came back noise, so the rule worked. No full-coverage noise case came back partial, so the rule is not too broad. Score: **30 of 30 after the backstop, 24 of 30 model alone.** The model said `ambiguous` on all 6 partial calls, never `noise` and never `partial`. The code named them `partial`. The 6 model-alone misses are exactly those calls.
+## Headline: the proof bar is met, and the hypermodel is not necessary here
+Bolt (`nvidia/nemotron-3.5-bolt-e4b`): **30 of 30 after the backstop, 24 of 30 model alone.** H5-A3 and H5-A4 came back `partial`, 3 of 3 each. H5-N1, H5-N2 and H5-N3 came back `noise`, 3 of 3 each. **The 30 calls took 33.7 s in total, 1.1 s per call on average (0.8 to 3.6 s).** K3 on set 4 took about 1,770 s for its 30 calls, about 59 s per call. That is roughly 50 times faster. The whole run, calls plus the 11-run pipeline, took 43 s.
 
-## The rule
-**In code** (`judge.py`, `is_partial` and `check_partial`, run after the old checks): a packet is partial when it holds at least one touched example whose answer did not change AND at least one untouched example. Priors never count. On a partial packet:
-- `noise` is rejected and recorded as a failed judgment with kind `partial`;
-- `ambiguous`, or a failed reply, becomes `partial`;
-- a supported `logical` (a cited changed example) still stands.
+Same pattern as K3 on set 4: the model said `ambiguous` on all 6 partial calls, never `noise`, and the code named them `partial`. Those 6 are the only model-alone misses. On this set, Bolt and K3 behave the same (the scores match exactly). The backstop does the part that needs doing.
 
-On a packet that is not partial, a `partial` answer is rejected (failed, ambiguous). That is what keeps the rule off full-coverage noise. `partial` is now a fourth kind. KATIE treats it like ambiguous: a hold entry with its own KID, no training on the mixed set, Base served, then a probe. It is recorded as `judged_kind: partial` in the test record.
-**In the prompt**, one added line, rule 5: *"If the coverage is partial, one touched example and one untouched example, say partial, not noise."* Nothing else in the prompt changed (test-checked line by line against the set 3 seal). The reply template still lists three kinds, because changing it would have been a second prompt change. That may be why K3 said ambiguous and not partial.
-**Steering note:** the first version of the order made partial a true/false flag. The second made it a kind. I built the flag first, then switched to the kind before the seal. Only the kind version was sealed and run.
+## The swap
+One line in `judge.py`, the `MODEL` line. The id was read from the live `/v1/models` list (32 ids) and saved in `heldout5/model_check.json`. The timeout stays 900 s; Bolt needed nothing more. Prompt, ERIE and backstop, including the OCME-008 partial rule, are unchanged from the set 4 seal `bb1387a`. A test hashes all of it against that commit and checks that the only changed line in `judge.py` is `MODEL`. Older tests now read each earlier set's judge from its own seal commit, because the live `MODEL` moved again. The set 5 runner adds per-call timing; nothing else in it differs from set 4's.
 
 ## Set, seal, run
-Written by **Turdy** (`ae6a709`, `eb9b203`, `0f4d231`). The rule went in first, then the set was sealed in `bb1387a` ("SEAL4:") and pushed before any call. One run, in the ordered sequence, no retune. The results commit (`7ab8b55`) records `git_head_at_run = bb1387a`. Priors came from this run's own verdicts. `next_job_hurt` was derived from the run, and all four matched Turdy's file. ERIE is unchanged. Tests: 118 (was 90). With the rule disabled, 6 partial tests fail. The set 1-3 freeze checks now read the code as it stood at each seal commit, because the judge has changed since.
+Written by **Turdy** (`f2d6b7e`). The swap went in first, then the set was sealed in `0cb726e` ("SEAL5:") and pushed before any call. One run, in the ordered sequence, no retune. The results record `git_head_at_run = 0cb726e`. Priors came from this run's own verdicts, and `next_job_hurt` was derived from the run; all four matched Turdy's file. Tests: 132 (was 118).
 
-## Results (3 live calls each, every call in `results/live-judge-held-out-4.json`)
+## Results (3 live calls each, every call in `results/live-judge-held-out-5.json`)
 | Change | Truth | Model alone | After backstop | Cited | Priors | KATIE (pipeline) |
 |---|---|---|---|---|---|---|
-| H4-N1 note order | noise | noise x3 | **noise x3** | E1,E2 | none | not run (noise) |
-| H4-N2 written dates | noise | noise x3 | **noise x3** | E1,E2 | none | not run (noise) |
-| H4-L1 spaces count | logical | logical x3 | logical x3 | E1 | none | right |
-| H4-L2 exact totals | logical | logical x3 | logical x3 | E1 | none | right |
-| H4-N3 24-hour times | noise | noise x3 | **noise x3** | E1-E3 | N1 noise | not run (noise) |
-| H4-L3 "cleanup", full name required | logical | logical x3 | logical x3 | E1 | N2 noise (misleading) | right |
-| H4-A1 euros, count example | ambiguous | ambiguous x3 | ambiguous x3 | E1 | none | right |
-| H4-A2 French, conflicting priors | ambiguous | ambiguous x3 | ambiguous x3 | E1,E2 | N2 noise, L2 logical | right |
-| H4-A3 only calendar changes | partial | ambiguous x3 | **partial x3** | E1,E2 | none | right |
-| H4-A4 only notes change | partial | ambiguous x3 | **partial x3** | E1-E3 | L1 logical | right |
+| H5-N1 | noise | noise x3 | **noise x3** | E1,E2 | none | not run (noise) |
+| H5-N2 | noise | noise x3 | **noise x3** | E1,E2 | none | not run (noise) |
+| H5-L1 | logical | logical x3 | logical x3 | E1 | none | right |
+| H5-L2 | logical | logical x3 | logical x3 | E1 | none | right |
+| H5-N3 | noise | noise x3 | **noise x3** | E1,E2 | N1 noise | not run (noise) |
+| H5-L3 | logical | logical x3 | logical x3 | E1 | N2 noise (misleading) | right |
+| H5-A1 | ambiguous | ambiguous x3 | ambiguous x3 | E1 | none | right |
+| H5-A2 | ambiguous | ambiguous x3 | ambiguous x3 | E1,E2 | N2 noise, L2 logical | right |
+| H5-A3 | partial | ambiguous x3 | **partial x3** | E1,E2 | none | right |
+| H5-A4 | partial | ambiguous x3 | **partial x3** | E1 | L1 logical | right |
 
-**Pipeline, live judge, 11 runs:** KATIE ended equal to Control on selection and test in all 11, skipped 1 job each, and had no job that hurt. Where the change really mattered, KATIE avoided the -4 dip (logical, ambiguous-matters and partial-matters). On H4-A3-matters it now ends at 18 against Control's 18. The same case on set 3 (H3-A3) ended 14 against 18. Where the change was harmless, KATIE paid for the hold (14 against 19 during the window) and ended equal at 19.
+**Pipeline, live judge, 11 runs:** KATIE ended equal to Control on selection and test in all 11, skipped 1 job each, and had no job that hurt. It avoided the -4 dip wherever the change really moved answers. Where the change was harmless, it paid for the hold during the window and ended equal.
+
+## Timing
+| Judge | Set | 30 calls | Per call |
+|---|---|---|---|
+| K3 `kimi-k3.1-pro` | 4 | about 1,770 s | about 59 s |
+| Bolt `nemotron-3.5-bolt-e4b` | 5 | 33.7 s | 1.1 s mean |
+
+K3's time is wall clock from process start to the results file (it was not timed per call). Bolt's is the sum of per-call times. They are different sets of the same shape.
 
 ## Unproven
-K3 never itself said `partial`. The model-alone score on partial cases is 0 of 6, so the catch is the code's. The rule is about coverage only: a partial packet where the untouched example is the one that matters is held, and the probe settles it. Other models were not run on set 4. Outcomes are scripted, not replayed from AppWorld.
+Bolt was not run on set 4, and K3 not on set 5, so there is no same-set head to head. Bolt's model-alone score was 24 of 30 here and also 24 of 30 on set 2, where it missed the partial case and the backstop had no partial rule. So the rule, not the model, is what moved it to 30. Outcomes are scripted, not replayed from AppWorld.
