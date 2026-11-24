@@ -91,9 +91,9 @@ class Model(unittest.TestCase):
             self.assertEqual(json.loads(RES.read_text(encoding="utf-8"))["model"], judge.MODEL)
 
     def test_only_the_model_line_changed_and_no_partial_coverage_rule(self):
-        self.assertEqual(heldout3.frozen_hashes(), SEAL["frozen"])
+        self.assertEqual(heldout3.frozen_hashes("7a65c44"), SEAL["frozen"])   # the code as it stood at the seal
         self.assertEqual(SEAL["frozen"]["backstop"], json.loads((ROOT / "heldout2" / "SEAL.json").read_text(encoding="utf-8"))["frozen"]["backstop"])
-        src = inspect.getsource(judge.NimJudge)
+        src = subprocess.run(["git", "show", "7a65c44:katie_coevobench/judge.py"], capture_output=True, cwd=ROOT).stdout.decode()
         self.assertIn('"temperature": 0', src)
         self.assertIn('"max_tokens": 8192', src)
 

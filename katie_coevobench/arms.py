@@ -89,7 +89,7 @@ class KatieWrapper:
                             harness_kid=e.kid, prior_harness_kid=prev, judged_kind=verdict.kind,
                             evidence=verdict.evidence, failed=verdict.failed, evidence_kid=ev_kid,
                             cited=cited_ids(verdict.evidence))
-        if verdict.kind == "ambiguous":
+        if verdict.kind in ("ambiguous", "partial"):   # OCME-008: a partial judgment holds, it does not train
             h = self.rec.append("hold", 8, "gate", "change marked unsure; old trajectories held",
                                 verdict.reason, harness_kid=e.kid, judgment_kid=j.kid)
             self.hold = h.kid

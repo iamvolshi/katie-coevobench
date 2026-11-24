@@ -19,17 +19,25 @@ DIR = Path(__file__).resolve().parent.parent / "heldout3"
 RUN_ORDER = ["H3-N1", "H3-N2", "H3-L1", "H3-L2", "H3-N3", "H3-L3", "H3-A1", "H3-A2", "H3-A3", "H3-A4"]   # from the order
 
 
-def frozen_hashes() -> dict[str, str]:
-    """What must not change between OCME-004 and this run: the prompt, the backstop, ERIE, and judge.py except its MODEL line."""
+def frozen_hashes(ref: str | None = None) -> dict[str, str]:
+    """What must not change between OCME-004 and this run: the prompt, the backstop, ERIE, and judge.py except its MODEL line.
+    ref=None reads the working tree (used when sealing); ref=<commit> reads the code as it stood at that commit,
+    so the freeze stays checkable after later OCMEs change the judge."""
     import hashlib, re
-    from . import judge
     root = DIR.parent / "katie_coevobench"
-    j = (root / "judge.py").read_bytes().decode("utf-8").replace("\r\n", "\n")
+
+    def read(name: str) -> str:
+        if ref is None:
+            return (root / name).read_bytes().decode("utf-8").replace("\r\n", "\n")
+        out = subprocess.run(["git", "show", f"{ref}:katie_coevobench/{name}"], capture_output=True, cwd=DIR.parent)
+        return out.stdout.decode("utf-8").replace("\r\n", "\n")
+    j = read("judge.py")
+    prompt = j.split('\nPROMPT = """', 1)[1].split('"""', 1)[0]
     backstop = re.search(r"def check_against_packet.*?\n\n\ndef parse_verdict", j, re.S).group(0)
     h = lambda s: hashlib.sha256(s.encode("utf-8")).hexdigest()
-    return {"PROMPT": h(judge.PROMPT), "backstop": h(backstop),
+    return {"PROMPT": h(prompt), "backstop": h(backstop),
             "judge.py without MODEL line": h(re.sub(r"(?m)^MODEL = .*$", "MODEL = <id>", j)),
-            "erie.py": sha(root / "erie.py")}
+            "erie.py": h(read("erie.py"))}
 
 
 def load_changes() -> dict[str, dict]:

@@ -5,9 +5,9 @@ Live judge: Nemotron 3 Ultra on NVIDIA's OpenAI-compatible endpoint. Key from en
 """
 from __future__ import annotations
 import json, os, re, urllib.request, urllib.error
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
-KINDS = ("noise", "ambiguous", "logical")
+KINDS = ("noise", "ambiguous", "logical", "partial")   # OCME-008: partial is a kind; it holds like ambiguous
 MODEL = "moonshotai/kimi-k3.1-pro"   # OCME-007: was nemotron-3.5-bolt-e4b (OCME-006) and nemotron-3-ultra-550b-a55b (OCME-003/004); id copied from the live /v1/models list
 DEFAULT_BASE_URL = "https://integrate.api.nvidia.com/v1"
 
@@ -46,6 +46,7 @@ Rules:
 2. A task the change does not touch proves nothing. Do not count it as proof of noise.
 3. Cite the evidence you used by id in the "evidence" field, for example "E1, E3". Cite nothing you did not use.
 4. If you cannot tell, answer ambiguous. Never guess.
+5. If the coverage is partial, one touched example and one untouched example, say partial, not noise.
 Reply with ONLY one JSON object, no prose, no code fence:
 {"kind": "noise|ambiguous|logical", "reason": "one or two plain sentences that name the evidence ids you used", "evidence": "the ids you cited, e.g. E1, E2"}
 
@@ -68,18 +69,55 @@ class Verdict:
     failed: bool = False   # True when the response could not be used
 
 
-def failed(why: str) -> Verdict:
-    """A failed judgment is recorded as ambiguous. Never a guess."""
-    return Verdict("ambiguous", f"judgment failed: {why}", "", True)
+def failed(why: str, kind: str = "ambiguous") -> Verdict:
+    """A failed judgment is recorded as ambiguous (partial on a partial packet). Never a guess."""
+    return Verdict(kind, f"judgment failed: {why}", "", True)
 
 
 def cited_ids(evidence: str) -> list[str]:
     return re.findall(r"\bE\d+\b", evidence or "")
 
 
+def is_partial(packet) -> bool:
+    """Partial coverage: at least one touched example unchanged AND at least one untouched example.
+    A fact about the packet, decided in code. Priors do not count; only example items do."""
+    if packet is None:
+        return False
+    ex = [e for e in packet.items if e.type == "example"]
+    return any(e.shows == "unchanged" for e in ex) and any(e.shows == "nothing" for e in ex)
+
+
+def check_partial(v: Verdict, packet) -> Verdict:
+    """OCME-008 backstop, decided from the packet in code.
+
+    Partial packet: noise is rejected as a failed judgment with kind partial; an ambiguous or failed answer
+    becomes partial (it held, and the packet names why). A supported logical stands: a changed answer
+    outranks partial coverage. Not a partial packet: a partial answer is rejected (ambiguous, failed), so the
+    rule cannot spread to full-coverage noise.
+    """
+    part = is_partial(packet)
+    if part:
+        if v.kind == "noise":
+            return failed("partial coverage: a touched example is unchanged but another example is untouched, "
+                          "so noise is not allowed", "partial")
+        if v.kind in ("ambiguous", "partial"):
+            return replace(v, kind="partial")
+        return v
+    if v.kind == "partial":
+        return failed("partial is not supported: the packet does not hold a touched unchanged example "
+                      "and an untouched example")
+    return v
+
+
 def check_against_packet(v: Verdict, packet) -> Verdict:
     """Backstop for the prompt rules. A kind the evidence does not support becomes a failed judgment (ambiguous)."""
-    if v.failed or packet is None:
+    if packet is None:
+        return v
+    return check_partial(_check_kind(v, packet), packet)
+
+
+def _check_kind(v: Verdict, packet) -> Verdict:
+    if v.failed:
         return v
     items = {e.id: e for e in packet.items}
     cites = [items[c] for c in cited_ids(v.evidence) if c in items]
@@ -96,6 +134,11 @@ def check_against_packet(v: Verdict, packet) -> Verdict:
 
 
 def parse_verdict(raw, packet=None) -> Verdict:
+    v = _parse(raw, packet)
+    return check_partial(v, packet) if packet is not None and v.failed else v
+
+
+def _parse(raw, packet) -> Verdict:
     if not isinstance(raw, str):
         return failed("response was not text")
     s = raw.strip()

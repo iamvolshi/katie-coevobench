@@ -1,0 +1,17 @@
+{
+ "note": "sha256 of LF-normalized files, sealed before any held-out-4 judge call, AFTER the partial rule went in. Set written by Turdy (commit 0f4d231).",
+ "turdy_commit": "0f4d231",
+ "sealed": {
+  "heldout4/changes.json": "96fe7184108bfbca368c8c0310b4d6eda27dccd419437ef775d185299ec2ba64",
+  "heldout4/ground_truth.json": "e61747e316c4fe3a68c4d2ceea5f0e8f22fe833d5185b4291233844ce509cbc6",
+  "heldout4/README.md": "e43389cce9ca7e4a6f366c9158bf20dee8cade3c7eda98dc0ec71a06a9ca5061",
+  "heldout4/model_check.json": "e5336f52434e8b81e4e28286a3a3087fd0777ee809133f942964ee2bb89f6c64"
+ },
+ "judge_model": "moonshotai/kimi-k3.1-pro",
+ "frozen": {
+  "PROMPT": "76d16ce7487f6315ac5263c91519a41af550409b9c0d49f37f2196b2ff380761",
+  "backstop": "1bf55dbf5f064ee17d737147987f999aa0d2a7d74015f96a3f78a4bd5cccd7a9",
+  "judge.py without MODEL line": "7f550267e23eab3f8e10ae6947d82ee523377036e5083d4975b1656aefe0fa24",
+  "erie.py": "9df36c07ba515c21ee1470e007ef988e9ac8ec87645e9e0f9f4815b8e174245d"
+ }
+}

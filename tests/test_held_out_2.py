@@ -88,8 +88,8 @@ class Model(unittest.TestCase):
             self.assertEqual(json.loads(RES.read_text(encoding="utf-8"))["model"], SEAL["judge_model"])
 
     def test_everything_else_frozen(self):
-        self.assertEqual(heldout2.frozen_hashes(), SEAL["frozen"])
-        src = inspect.getsource(judge.NimJudge)
+        self.assertEqual(heldout2.frozen_hashes("cbab25c"), SEAL["frozen"])   # the code as it stood at the seal
+        src = subprocess.run(["git", "show", "cbab25c:katie_coevobench/judge.py"], capture_output=True, cwd=ROOT).stdout.decode()
         self.assertIn('"temperature": 0', src)
         self.assertIn('"max_tokens": 8192', src)
 

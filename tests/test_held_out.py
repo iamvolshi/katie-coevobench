@@ -101,35 +101,33 @@ class Sealed(unittest.TestCase):
 
 
 class Frozen(unittest.TestCase):
-    def test_judge_and_erie_files_unchanged_since_ocme_003(self):
-        # OCME-006 changed exactly one thing in judge.py: the MODEL line
-        strip = lambda s: re.sub(r"(?m)^MODEL = .*$", "MODEL = <id>", s.replace("\r\n", "\n"))
-        self.assertEqual(heldout.sha(ROOT / "katie_coevobench/erie.py"), SEAL["frozen"]["katie_coevobench/erie.py"])
-        code, old = git("show", "d21bf84:katie_coevobench/judge.py")
+    """Set 1 ran on the code at its seal commit 2762c74. That code must equal OCME-003's d21bf84.
+    Later OCMEs change the judge (OCME-006 the model, OCME-008 the partial rule); this keeps set 1's freeze checkable."""
+    SEAL_COMMIT = "2762c74"
+
+    def at(self, ref, path):
+        code, out = git("show", f"{ref}:{path}")
         if code != 0:
-            self.skipTest("d21bf84 not available")
-        self.assertEqual(strip(old).strip(), strip((ROOT / "katie_coevobench/judge.py").read_text(encoding="utf-8")).strip())
+            self.skipTest(f"{ref} not available")
+        return out.replace("\r\n", "\n")
 
-    def test_prompt_frozen(self):
-        self.assertEqual(hashlib.sha256(judge.PROMPT.encode()).hexdigest(), SEAL["frozen"]["PROMPT"])
-        self.assertIn("If no example shows a changed answer, do not say logical", judge.PROMPT)
+    def test_judge_and_erie_at_the_seal_equal_ocme_003(self):
+        for f in ("katie_coevobench/judge.py", "katie_coevobench/erie.py"):
+            self.assertEqual(self.at(self.SEAL_COMMIT, f), self.at("d21bf84", f), f)
+        raw = subprocess.run(["git", "show", f"{self.SEAL_COMMIT}:katie_coevobench/erie.py"], capture_output=True, cwd=ROOT).stdout
+        self.assertEqual(hashlib.sha256(raw.replace(b"\r\n", b"\n")).hexdigest(), SEAL["frozen"]["katie_coevobench/erie.py"])
 
-    def test_prompt_and_backstop_match_ocme_003_commit(self):
-        code, old = git("show", "d21bf84:katie_coevobench/judge.py")
-        if code != 0:
-            self.skipTest("d21bf84 not available")
-        old = old.replace("\r\n", "\n")
-        old_prompt = old.split("\nPROMPT = \"\"\"", 1)[1].split("\"\"\"", 1)[0]
-        self.assertEqual(old_prompt, judge.PROMPT)
-        old_backstop = re.search(r"def check_against_packet.*?\n\n\ndef parse_verdict", old.replace("\r\n", "\n"), re.S).group(0)
-        new_backstop = re.search(r"def check_against_packet.*?\n\n\ndef parse_verdict",
-                                 inspect.getsource(judge).replace("\r\n", "\n"), re.S).group(0)
-        self.assertEqual(old_backstop, new_backstop)
+    def test_prompt_at_the_seal_matches_the_seal_hash(self):
+        j = self.at(self.SEAL_COMMIT, "katie_coevobench/judge.py")
+        prompt = j.split('\nPROMPT = """', 1)[1].split('"""', 1)[0]
+        self.assertEqual(hashlib.sha256(prompt.encode()).hexdigest(), SEAL["frozen"]["PROMPT"])
+        self.assertIn("If no example shows a changed answer, do not say logical", prompt)
+        self.assertIn('MODEL = "nvidia/nemotron-3-ultra-550b-a55b"', j)
 
-    def test_live_settings_frozen(self):
-        src = inspect.getsource(judge.NimJudge)
-        self.assertIn('"temperature": 0', src)
-        self.assertIn('"max_tokens": 8192', src)
+    def test_live_settings_at_the_seal(self):
+        j = self.at(self.SEAL_COMMIT, "katie_coevobench/judge.py")
+        self.assertIn('"temperature": 0', j)
+        self.assertIn('"max_tokens": 8192', j)
 
 
 class Plumbing(unittest.TestCase):
