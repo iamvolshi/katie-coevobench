@@ -46,16 +46,17 @@ th:first-child, td:first-child { text-align: left; }
 </table>
 <p id="script-result"></p>
 
-<h2>Live judge</h2>
-<p>Nemotron 3 Ultra, NVIDIA free tier. With the ERIE evidence prompt, Nov 24, it got 12 out of 12 right, 3 calls on each of the 4 scripts.</p>
+<h2>Live judge, held-out</h2>
+<p>Kimi K3.1 Pro, NVIDIA free tier, Nov 24, OCME-008-evo. On held-out set 4, ten changes the judge had never seen, it got <strong>30 out of 30 after the backstop, 24 out of 30 from the model alone</strong>, 3 calls on each change.</p>
 <ul>
-<li>Noise: expected noise, got noise, 3 times.</li>
-<li>Logical: expected logical, got logical, 3 times.</li>
-<li>Ambiguous that matters: expected ambiguous, got ambiguous, 3 times.</li>
-<li>Ambiguous, harmless: expected ambiguous, got ambiguous, 3 times.</li>
+<li>Partial, H4-A3 and H4-A4: expected partial, got partial, 3 times each. The model said ambiguous all 6 times, the backstop named them partial.</li>
+<li>Noise, H4-N1, H4-N2, H4-N3: expected noise, got noise, 3 times each. Full coverage noise still comes back noise.</li>
+<li>Logical, H4-L1, H4-L2, H4-L3: expected logical, got logical, 3 times each.</li>
+<li>Ambiguous, H4-A1 and H4-A2: expected ambiguous, got ambiguous, 3 times each.</li>
 </ul>
-<p>The full live pipeline got 18 out of 18 kinds right, and the stage numbers match the stub run. The UTC dates change now comes back ambiguous every time, citing the untouched examples as proving nothing.</p>
-<p>Honest limit: the prompt was tuned on these same four scripts, so 12 out of 12 is not a held-out score. The held-out test, with changes the judge has never seen, is OCME-004-evo, and it is not built yet.</p>
+<p>The full live pipeline, 11 runs, ended equal to Control in all of them, skipped 1 job each, no job hurt. On the partial case that used to break, KATIE now ends at 18 against Control's 18. On set 3 it was 14 against 18.</p>
+<p>Partial is a kind, alongside noise, logical, and ambiguous. A partial judgment holds, it does not train. The rule is in the backstop code and in one prompt line: if the coverage is partial, one touched example and one untouched example, say partial, not noise.</p>
+<p>Honest limit: this is still a simulation, not a real AppWorld run and not real training. Held-out sets 1 to 4 were written by Turdy, not by the prompt builder, and sealed before the first call, so the 30 out of 30 is a held-out score. The prompt was tuned on the earlier scripts, and the set 1 to 3 freeze checks now read the code as it stood at each seal. Next: OCME-009-evo, a quicker model, Bolt, on a fresh held-out set 5, to see if it also gets 30 out of 30 with the backstop.</p>
 <p>Before the ERIE fix, the old prompt got 2 out of 3 right and called the ambiguous change logical instead of holding. That miss is what the ERIE evidence packet fixed.</p>
 
 <h2>Mix rules, logical script, Control score at first retrain</h2>
@@ -69,7 +70,7 @@ th:first-child, td:first-child { text-align: left; }
 
 <h2>What this is, in plain words</h2>
 <p>CoEvoBench shows a researcher can make a strong first improvement, but cannot turn feedback from an improved system into the next one. Every harness revision reopens the training decision. KATIE is a record around the researcher loop. Every trajectory, harness change, and training job gets its own KID. Training data is gated by harness KID, so stale data is refused, stale weights are not served, and a bad job is skipped.</p>
-<p class="small">Repo: https://github.com/iamvolshi/katie-coevobench — branches feat/appworld-harness-flip and feat/change-kinds. Tests: 33 pass on feat/change-kinds. Paper link above is the source for the constants.</p>
+<p class="small">Repo: https://github.com/iamvolshi/katie-coevobench — branches feat/partial-backstop, feat/kimi-k3-judge, and feat/held-out-set-4. Tests: 118 pass on feat/partial-backstop. Paper link above is the source for the constants.</p>
 
 <script>
 var DATA = {
